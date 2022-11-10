@@ -9,30 +9,32 @@
  
 void setup() 
 {
-  // velocidade de comunicação serial
+  //Serielle Übertragung an den Arduino
   Serial.begin(9600);
   Wire.begin();
-  sensor.begin();
-  Serial.println(" Monitoramento de luminosidade sensor BH1750 ");
-  lcd.begin(16,2);
+  sensor.begin();                                           //Sensorstart
+  Serial.println("Lichtintensität gemessen von: BH1750 ");  //Gibt in Konsole Text aus 1 malig
+  lcd.begin(20,4);
   lcd.setBacklight(HIGH);
-  lcd.setCursor(2,0);
-  lcd.print("LUXIMETRO");
 }
 
 void loop() 
 {
-  // variavel para leitura da luminosidade
-  unsigned lux = sensor.readLightLevel();
-  lcd.setCursor(2,1);
-  lcd.print("LUX: ");
-  lcd.setCursor(6,1);
-  lcd.print(lux);  
-  Serial.print(" Luminosidade: ");
+  unsigned lux = sensor.readLightLevel(); //Auslesen des Sensors
+  //Anzeige aud Display
+  lcd.setCursor(11,0);                    
+  lcd.print(lux);
+  lcd.setCursor(17,0);
+  lcd.print("LUX");  
+
+  //Anzeige in Konsole
+  Serial.print(" Lichtintensität: ");
   Serial.print(lux);
   Serial.println(" Lux ");
-  delay(300);
-  lcd.clear();
+  delay(1000);
+  
+  lcd.clear();                            //Display löschen
+  
   lcd.setCursor(0,0);
-  lcd.print("SENSOR - BH1750");
+  lcd.print("Helligkeit:");
 }
