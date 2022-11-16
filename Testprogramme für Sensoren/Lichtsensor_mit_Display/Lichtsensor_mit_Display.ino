@@ -1,3 +1,5 @@
+
+
 // Bibliotecas
  #include <Wire.h>
  #include <BH1750.h>
