@@ -30,6 +30,11 @@ const int humid = 7;  //Variable für Pin von Humiditysensor
   //Display
 LiquidCrystal_I2C lcd(0x27,20,4); //LCD Display definieren
 
+  //Relais
+const int rWasser = 8;  //Relais 1
+const int rLicht = 9;   //Relais 2
+const int rLuft = 10;   //Relais 3
+
 
 void setup (){
 
@@ -40,6 +45,11 @@ void setup (){
   lcd.init();               //LCD starten
   lcd.backlight();          //LCD Hintergrundbeleuchtung starten
   pinMode(humid, INPUT);    //PIN 7 als Input für humid festgelegt
+
+  //Relais
+  pinMode(rWasser, OUTPUT); //Relais Als OUTPUTS festlegen
+  pinMode(rLicht, OUTPUT);
+  pinMode(rLuft, OUTPUT);
   
 }
 
@@ -105,8 +115,11 @@ void loop() {
   }
 
   Serial.print("Wasserstand: ");
-  Serial.print();
-  Serial.print("");
+  Serial.print(distance);
+  Serial.println("cm");
+//_________________________________________________________________
+
+
 
 
   
