@@ -17,7 +17,7 @@ BH1750 lightMeter;
 #define TRIGGER_PIN 11
 #define ECHO_PIN 12
 #define MAX_DISTANCE 200
-NewPing sonar(TRIGGER_PIN, ECO_PIN, MAX_DISTANCE);
+NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
 
   //Temperatursensor
 #define ONE_WIRE_BUS 2
@@ -62,7 +62,7 @@ void loop() {
   unsigned int distance = sonar.ping_cm();
 
   //Abfrage Temperatursensor  Variable = temp
-  signed int temp = String(sensors.getTempCByIndex(0))
+  signed int temp = sensors.getTempCByIndex(0);
 
   //Humidity                  Variable = humid
   
