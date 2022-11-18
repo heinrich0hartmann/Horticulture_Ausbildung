@@ -118,7 +118,31 @@ void loop() {
   Serial.print(distance);
   Serial.println("cm");
 //_________________________________________________________________
+//Relais Funktionen
 
+//Bewässerung
+if (humid == 1){
+  digitalWrite(rWasser, LOW);   //Wasser ein
+}
+else {
+  digitalWrite(rWasser, HIGH);  //Wasser aus
+}
+
+//Licht
+if (lux <= 500){
+  digitalWrite(rLicht, LOW);   //Lampe ein
+}
+else {
+  digitalWrite(rLicht, HIGH);  //Licht aus
+}
+
+//Belüftung
+if (temp >= 25){
+  digitalWrite(rLuft, LOW);   //Lüfter ein
+}
+else {
+  digitalWrite(rLuft, HIGH);  //Lüfter aus
+}
 
 
 
