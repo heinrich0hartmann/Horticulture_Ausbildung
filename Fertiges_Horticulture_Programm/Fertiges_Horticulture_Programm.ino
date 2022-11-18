@@ -74,10 +74,10 @@ void loop() {
   lcd.print("HUM: ");
   lcd.setCursor(2,5);
   if (humid == 1){
-    lcd.print("dry")
+    lcd.print("dry");
   }
   else {
-    lcd.print("wet")
+    lcd.print("wet");
   }
   // lcd.print(humid);     //Variable humid ausgeben
 
@@ -98,13 +98,13 @@ void loop() {
 
   Serial.print("Humidity: ");
   if (humid == 1){
-    Serial.print("dry")
+    Serial.println("dry");
   }
   else {
-    Serial.print("wet")
+    Serial.println("wet");
   }
 
-  Serial.print("");
+  Serial.print("Wasserstand: ");
   Serial.print();
   Serial.print("");
 
