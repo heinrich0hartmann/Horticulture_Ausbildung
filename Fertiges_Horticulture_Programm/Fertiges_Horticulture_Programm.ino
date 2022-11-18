@@ -73,7 +73,13 @@ void loop() {
   lcd.setCursor(2,0);   //Humitity
   lcd.print("HUM: ");
   lcd.setCursor(2,5);
-  lcd.print(humid);     //Variable humid ausgeben
+  if (humid == 1){
+    lcd.print("dry")
+  }
+  else {
+    lcd.print("wet")
+  }
+  // lcd.print(humid);     //Variable humid ausgeben
 
   lcd.setCursor(3,0);   //Wasserstand
   lcd.print("H2O: ");
@@ -90,11 +96,13 @@ void loop() {
   Serial.print(lux);
   Serial.println("Lux");
 
-  //Humid noch zu überarbeiten!!!!mit High und Low in feucht/trocken
-  if (humid = HIGH
   Serial.print("Humidity: ");
-  Serial.print(humid);
-  Serial.print("1=Trocken/ 0=Feucht");
+  if (humid == 1){
+    Serial.print("dry")
+  }
+  else {
+    Serial.print("wet")
+  }
 
   Serial.print("");
   Serial.print();
