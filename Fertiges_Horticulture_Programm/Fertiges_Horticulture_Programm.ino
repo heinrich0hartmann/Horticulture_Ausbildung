@@ -103,7 +103,8 @@ void loop() {
   Serial.println("Lux");
 
   Serial.print("Humidity: ");
-  Serial.println(prozent);
+  Serial.print(prozent);
+  Serial.println("%");
 
   Serial.print("Wasserstand: ");
   Serial.print(distance);
