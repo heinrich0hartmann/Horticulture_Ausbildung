@@ -72,17 +72,17 @@ void loop() {
   //LCD Display
   lcd.setCursor(0,0);   //Temperatur
   lcd.print("Temp: ");  
-  lcd.setCursor(0,6);
+  lcd.setCursor(6,0);
   lcd.print(temp);      //Variable temp ausgeben
   
-  lcd.setCursor(1,0);   //Lichtintensität
+  lcd.setCursor(0,1);   //Lichtintensität
   lcd.print("LUX: ");
-  lcd.setCursor(1,5);
+  lcd.setCursor(5,1);
   lcd.print(lux);       //Variable lux ausgeben
 
-  lcd.setCursor(2,0);   //Humitity
+  lcd.setCursor(0,2);   //Humitity
   lcd.print("HUM: ");
-  lcd.setCursor(2,5);
+  lcd.setCursor(5,2);
   if (humid == 1){
     lcd.print("dry");
   }
@@ -91,9 +91,9 @@ void loop() {
   }
   // lcd.print(humid);     //Variable humid ausgeben
 
-  lcd.setCursor(3,0);   //Wasserstand
+  lcd.setCursor(0,3);   //Wasserstand
   lcd.print("H2O: ");
-  lcd.setCursor(3,5);
+  lcd.setCursor(5,3);
   lcd.print(distance);  //Variable distance ausgeben
 //________________________________________________________________
 
@@ -144,6 +144,8 @@ else {
   digitalWrite(rLuft, HIGH);  //Lüfter aus
 }
 
+//Pause für Sichtbarkeit
+delay(2500);
 
 
   
