@@ -74,23 +74,23 @@ void loop() {
   
   //LCD Display
   lcd.setCursor(0,0);   //Temperatur
-  lcd.print("TMP: " + String(sensors.getTempCByIndex(0)));  //Temperatur ausgeben
+  lcd.print("TMP: " + String(sensors.getTempCByIndex(0))+ "°C");  //Temperatur ausgeben
   
   lcd.setCursor(0,1);   //Lichtintensität
-  lcd.print("LUX: ");
+  lcd.print("LGT: ");
   lcd.setCursor(5,1);
-  lcd.print(lux);       //Variable lux ausgeben
+  lcd.print(lux) + "lux";       //Variable lux ausgeben
 
   lcd.setCursor(0,2);   //Humitity
   lcd.print("HUM: ");
   lcd.setCursor(5,2);
-  lcd.print(prozent);   //Humidity in Prozent ausgeben
+  lcd.print(prozent + "%");   //Humidity in Prozent ausgeben
 
 
   lcd.setCursor(0,3);   //Wasserstand
   lcd.print("H2O: ");
   lcd.setCursor(5,3);
-  lcd.print(distance);  //Variable distance ausgeben
+  lcd.print(distance + "cm");  //Variable distance ausgeben
 //________________________________________________________________
 
   //Serieller Screen
@@ -118,55 +118,42 @@ void loop() {
 if (prozent <= 50){
   digitalWrite(rWasser, HIGH);   //Wasser ein
   
-  lcd.setCursor(12,2);
+  lcd.setCursor(13,2);
   lcd.print("R1: ON");
 }
 else {
   digitalWrite(rWasser, LOW);  //Wasser aus
 
-  lcd.setCursor(12,2);
+  lcd.setCursor(13,2);
   lcd.print("R1: OFF");
 }
 
 //Licht
 if (lux <= 500){
   digitalWrite(rLicht, HIGH);   //Lampe ein
-
-  lcd.setCursor(12,1);
+  lcd.setCursor(13,1);
   lcd.print("R2: ON");
 }
-else {
+else{
   digitalWrite(rLicht, LOW);  //Licht aus
-
-  lcd.setCursor(12,1);
-  lcd.print("R2: OFF");
+  lcd.setCursor(13,1);
+  lcd.print("R2: OFF"); 
 }
+
 //Belüftung
 if (temp >=27){
   digitalWrite(rLuft, HIGH);   //Lüfter ein 
-  lcd.setCursor(12,0);
+  lcd.setCursor(13,0);
   lcd.print("R3: ON");
 }
-if (temp <= 24) {
+if (temp <= 24){
   digitalWrite(rLuft, LOW); //Lüfter aus
-  lcd.setCursor(12,0);
+  lcd.setCursor(13,0);
   lcd.print("R3: OFF");
 }
-/* Belüftung
-if (temp >= 25){
-  digitalWrite(rLuft, HIGH);   //Lüfter ein 
-  lcd.setCursor(12,0);
-  lcd.print("R3: ON");
-}
 
-else{
-  digitalWrite(rLuft, LOW); //Lüfter blibt an
-  lcd.setCursor(12,0);
-  lcd.print("R3: OFF");
-}
-*/
 
- 
+
 //Pause für Sichtbarkeit
 delay(2500);
 lcd.clear();
