@@ -147,7 +147,7 @@ if (temp >=27){
   lcd.setCursor(12,0);
   lcd.print("R3: ON");
 }
-if (temp >= 24) {
+if (temp = 24) {
   digitalWrite(rLuft, LOW); //Lüfter aus
   lcd.setCursor(12,0);
   lcd.print("R3: OFF");
