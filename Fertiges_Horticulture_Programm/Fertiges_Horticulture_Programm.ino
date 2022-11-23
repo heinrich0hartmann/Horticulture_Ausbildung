@@ -82,11 +82,11 @@ void loop() {
   lcd.setCursor(0,2);   //Humitity
   lcd.print("HUM: ");
   lcd.setCursor(5,2);
-  if (humid == 1){
-    lcd.print("dry");
+  if (humid == HIGH){
+    lcd.print("wet");
   }
   else {
-    lcd.print("wet");
+    lcd.print("dry");
   }
   // lcd.print(humid);     //Variable humid ausgeben
 
@@ -106,11 +106,11 @@ void loop() {
   Serial.println("Lux");
 
   Serial.print("Humidity: ");
-  if (humid == 1){
-    Serial.println("dry");
+  if (humid == HIGH){
+    Serial.println("wet");
   }
   else {
-    Serial.println("wet");
+    Serial.println("dry");
   }
 
   Serial.print("Wasserstand: ");
@@ -122,7 +122,7 @@ void loop() {
 //Relais Funktionen
 
 //Bewässerung
-if (humid == 1){
+if (humid == HIGH){
   digitalWrite(rWasser, LOW);   //Wasser ein
 }
 else {
