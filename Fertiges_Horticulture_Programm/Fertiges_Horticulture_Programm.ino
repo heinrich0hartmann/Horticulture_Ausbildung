@@ -74,23 +74,23 @@ void loop() {
   
   //LCD Display
   lcd.setCursor(0,0);   //Temperatur
-  lcd.print("TMP: " + String(sensors.getTempCByIndex(0))+ "°C");  //Temperatur ausgeben
+  lcd.print("TMP: " + String(sensors.getTempCByIndex(0)));  //Temperatur ausgeben
   
   lcd.setCursor(0,1);   //Lichtintensität
   lcd.print("LGT: ");
   lcd.setCursor(5,1);
-  lcd.print(lux) + "lux";       //Variable lux ausgeben
+  lcd.print(lux);       //Variable lux ausgeben
 
   lcd.setCursor(0,2);   //Humitity
   lcd.print("HUM: ");
   lcd.setCursor(5,2);
-  lcd.print(prozent + "%");   //Humidity in Prozent ausgeben
+  lcd.print(prozent);   //Humidity in Prozent ausgeben
 
 
   lcd.setCursor(0,3);   //Wasserstand
   lcd.print("H2O: ");
   lcd.setCursor(5,3);
-  lcd.print(distance + "cm");  //Variable distance ausgeben
+  lcd.print(distance);  //Variable distance ausgeben
 //________________________________________________________________
 
   //Serieller Screen
