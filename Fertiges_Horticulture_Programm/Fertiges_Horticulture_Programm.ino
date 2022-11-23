@@ -144,17 +144,25 @@ else {
 
 //Belüftung
 if (temp >= 25){
-  digitalWrite(rLuft, HIGH);   //Lüfter ein
-  
+  digitalWrite(rLuft, HIGH);   //Lüfter ein 
   lcd.setCursor(12,0);
   lcd.print("R3: ON");
 }
 else {
   digitalWrite(rLuft, LOW);  //Lüfter aus
-
+if (millis() % 1000 < 10){
+  digitalWrite(rLuft, HIGH); //für 10s Lüfter an
+}
+else {
+  digitalWrite(rLuft, LOW); //Lüfter blibt an
+  }
   lcd.setCursor(12,0);
   lcd.print("R3: OFF");
 }
+
+
+
+
 
 //Pause für Sichtbarkeit
 delay(2500);
