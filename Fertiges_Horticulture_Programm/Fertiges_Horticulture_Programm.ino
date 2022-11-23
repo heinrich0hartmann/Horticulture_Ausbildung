@@ -26,8 +26,7 @@ DallasTemperature sensors(&oneWire);
 
   //Feuchtigkeitssensor
 //const int humid = 7;  //Variable für Pin von Humiditysensor
-digitalWrite(1, 
-
+int humid=0;
   //Display
 LiquidCrystal_I2C lcd(0x27,20,4); //LCD Display definieren
 
@@ -67,7 +66,7 @@ void loop() {
   signed int temp = sensors.getTempCByIndex(0);
   
   //Humidity                  Variable = humid
-  
+  humid=analogRead(A3);
 //Ausgabegeräte
 //______________________________________________________________
   
@@ -83,11 +82,11 @@ void loop() {
   lcd.setCursor(0,2);   //Humitity
   lcd.print("HUM: ");
   lcd.setCursor(5,2);
-  if (humid == HIGH){
-    lcd.print("wet");
+  if (humid < 200){
+    lcd.print("dry");
   }
   else {
-    lcd.print("dry");
+    lcd.print("wet");
   }
   // lcd.print(humid);     //Variable humid ausgeben
 
@@ -107,11 +106,11 @@ void loop() {
   Serial.println("Lux");
 
   Serial.print("Humidity: ");
-  if (humid == HIGH){
-    Serial.println("wet");
+  if (humid < 200){
+    Serial.println("dry");
   }
   else {
-    Serial.println("dry");
+    Serial.println("wet");
   }
 
   Serial.print("Wasserstand: ");
@@ -123,11 +122,11 @@ void loop() {
 //Relais Funktionen
 
 //Bewässerung
-if (humid == HIGH){
-  digitalWrite(rWasser, LOW);   //Wasser ein
+if (humid < 200){
+  digitalWrite(rWasser, HIGH);   //Wasser ein
 }
 else {
-  digitalWrite(rWasser, HIGH);  //Wasser aus
+  digitalWrite(rWasser, LOW);  //Wasser aus
 }
 
 //Licht
