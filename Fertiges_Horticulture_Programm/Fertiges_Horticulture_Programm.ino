@@ -24,9 +24,6 @@ NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
 OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature sensors(&oneWire);
 
-  //Feuchtigkeitssensor
-//const int humid = 7;  //Variable für Pin von Humiditysensor
-int humid=0;
   //Display
 LiquidCrystal_I2C lcd(0x27,20,4); //LCD Display definieren
 
@@ -44,7 +41,10 @@ void setup (){
   sensors.begin();          //Temperatursensor beginnt
   lcd.init();               //LCD starten
   lcd.backlight();          //LCD Hintergrundbeleuchtung starten
-  pinMode(humid, INPUT);    //PIN 7 als Input für humid festgelegt
+  
+  //Feuchtigkeitssensor
+  pinMode (7, INPUT);       //D7 als digitaler Input
+  pinMode (A0, INPUT);      //A0 als analoger Input
 
   //Relais
   pinMode(rWasser, OUTPUT); //Relais Als OUTPUTS festlegen
@@ -65,8 +65,10 @@ void loop() {
   sensors.requestTemperatures();
   signed int temp = sensors.getTempCByIndex(0);
   
-  //Humidity                  Variable = humid
-  humid=analogRead(A3);
+  //Humidity                  Variable = humid / prozent für Prozentanzeige
+  int humid = analogRead(A0);                  //Feuchtigkeit in humid
+  int prozent = map(humid,262,1023,100,0);    //Feuchtigkeit in Prozent ausgeben
+
 //Ausgabegeräte
 //______________________________________________________________
   
@@ -82,13 +84,8 @@ void loop() {
   lcd.setCursor(0,2);   //Humitity
   lcd.print("HUM: ");
   lcd.setCursor(5,2);
-  if (humid < 200){
-    lcd.print("dry");
-  }
-  else {
-    lcd.print("wet");
-  }
-  // lcd.print(humid);     //Variable humid ausgeben
+  lcd.print(prozent);   //Humidity in Prozent ausgeben
+
 
   lcd.setCursor(0,3);   //Wasserstand
   lcd.print("H2O: ");
@@ -106,12 +103,7 @@ void loop() {
   Serial.println("Lux");
 
   Serial.print("Humidity: ");
-  if (humid < 200){
-    Serial.println("dry");
-  }
-  else {
-    Serial.println("wet");
-  }
+  Serial.println(prozent);
 
   Serial.print("Wasserstand: ");
   Serial.print(distance);
@@ -122,7 +114,7 @@ void loop() {
 //Relais Funktionen
 
 //Bewässerung
-if (humid < 200){
+if (prozent <= 50){
   digitalWrite(rWasser, HIGH);   //Wasser ein
 }
 else {
