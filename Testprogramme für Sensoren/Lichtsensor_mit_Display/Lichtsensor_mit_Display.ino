@@ -6,7 +6,7 @@
  #include <LiquidCrystal_I2C.h>
  LiquidCrystal_I2C lcd (0x27,20,4);
 
- // definiçao de objeto
+ // Objekt diefinieren
  BH1750 sensor;
  
 void setup() 
@@ -28,7 +28,7 @@ void loop()
   lcd.print(lux);
   lcd.setCursor(17,0);
   lcd.print("LUX");  
-
+  
   //Anzeige in Konsole
   Serial.print(" Lichtintensität: ");
   Serial.print(lux);
