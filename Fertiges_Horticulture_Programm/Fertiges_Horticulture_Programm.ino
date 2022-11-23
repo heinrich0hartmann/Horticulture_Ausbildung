@@ -31,8 +31,7 @@ LiquidCrystal_I2C lcd(0x27,20,4); //LCD Display definieren
 const int rWasser = 8;  //Relais 1
 const int rLicht = 9;   //Relais 2
 const int rLuft = 10;   //Relais 3
-long myTimer = 0;
-long myTimeout = 10000;
+
 
 void setup (){
 
@@ -143,13 +142,13 @@ else {
   lcd.print("R2: OFF");
 }
 //Belüftung
-if (millis() > myTimeout + myTimer && temp >=25){
+if (temp >=27){
   digitalWrite(rLuft, HIGH);   //Lüfter ein 
   lcd.setCursor(12,0);
   lcd.print("R3: ON");
 }
-else {
-  digitalWrite(rLuft, LOW); //Lüfter blibt an
+if (temp >= 24) {
+  digitalWrite(rLuft, LOW); //Lüfter aus
   lcd.setCursor(12,0);
   lcd.print("R3: OFF");
 }
@@ -166,6 +165,8 @@ else{
   lcd.print("R3: OFF");
 }
 */
+
+ 
 //Pause für Sichtbarkeit
 delay(2500);
 lcd.clear();
