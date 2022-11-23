@@ -117,29 +117,48 @@ void loop() {
 //Bewässerung
 if (prozent <= 50){
   digitalWrite(rWasser, HIGH);   //Wasser ein
+  
+  lcd.setCursor(12,2);
+  lcd.print("R1: ON");
 }
 else {
   digitalWrite(rWasser, LOW);  //Wasser aus
+
+  lcd.setCursor(12,2);
+  lcd.print("R1: OFF");
 }
 
 //Licht
 if (lux <= 500){
-  digitalWrite(rLicht, LOW);   //Lampe ein
+  digitalWrite(rLicht, HIGH);   //Lampe ein
+
+  lcd.setCursor(12,1);
+  lcd.print("R2: ON");
 }
 else {
-  digitalWrite(rLicht, HIGH);  //Licht aus
+  digitalWrite(rLicht, LOW);  //Licht aus
+
+  lcd.setCursor(12,1);
+  lcd.print("R2: OFF");
 }
 
 //Belüftung
 if (temp >= 25){
-  digitalWrite(rLuft, LOW);   //Lüfter ein
+  digitalWrite(rLuft, HIGH);   //Lüfter ein
+  
+  lcd.setCursor(12,0);
+  lcd.print("R3: ON");
 }
 else {
-  digitalWrite(rLuft, HIGH);  //Lüfter aus
+  digitalWrite(rLuft, LOW);  //Lüfter aus
+
+  lcd.setCursor(12,0);
+  lcd.print("R3: OFF");
 }
 
 //Pause für Sichtbarkeit
 delay(2500);
+lcd.clear();
 
 
   
