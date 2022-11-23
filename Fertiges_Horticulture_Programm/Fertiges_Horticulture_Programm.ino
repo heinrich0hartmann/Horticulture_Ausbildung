@@ -71,8 +71,8 @@ void loop() {
   
   //LCD Display
   lcd.setCursor(0,0);   //Temperatur
-  lcd.print("Temp: ");  
-  lcd.setCursor(6,0);
+  lcd.print("TMP: ");  
+  lcd.setCursor(5,0);
   lcd.print(temp);      //Variable temp ausgeben
   
   lcd.setCursor(0,1);   //Lichtintensität
