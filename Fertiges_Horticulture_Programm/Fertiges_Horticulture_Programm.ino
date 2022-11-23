@@ -62,8 +62,9 @@ void loop() {
   unsigned int distance = sonar.ping_cm();
 
   //Abfrage Temperatursensor  Variable = temp
+  sensors.requestTemperatures();
   signed int temp = sensors.getTempCByIndex(0);
-
+  
   //Humidity                  Variable = humid
   
 //Ausgabegeräte
@@ -71,9 +72,7 @@ void loop() {
   
   //LCD Display
   lcd.setCursor(0,0);   //Temperatur
-  lcd.print("TMP: ");  
-  lcd.setCursor(5,0);
-  lcd.print(temp);      //Variable temp ausgeben
+  lcd.print("TMP: " + String(sensors.getTempCByIndex(0)));  //Temperatur ausgeben
   
   lcd.setCursor(0,1);   //Lichtintensität
   lcd.print("LUX: ");
@@ -117,6 +116,8 @@ void loop() {
   Serial.print("Wasserstand: ");
   Serial.print(distance);
   Serial.println("cm");
+
+  Serial.println("--------------------------------");
 //_________________________________________________________________
 //Relais Funktionen
 
