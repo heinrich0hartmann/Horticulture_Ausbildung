@@ -9,6 +9,8 @@
 #include <DallasTemperature.h>
 #include <NewPing.h>
 #include <AS_BH1750.h>
+#include <OneButton.h>
+
 
 //------------------------------------------------------------------
 //Definitionen
@@ -66,15 +68,72 @@ void setup() {
   pinMode(rLicht, OUTPUT);
   pinMode(rLuft, OUTPUT);
 
-  //Taster
-  UP = digitalRead(T1);     //Zustand von T1 wird in UP gespeichert
-  SELECT = digitalRead(T2); //Zusatnd von T2 wird in SELECT gespeichert
-  DOWN = digitalRead(T3);   //Zustand von T3 wird in DOWN gespeichert
+  //Zum Start einmal Display clearen
+  lcd.clear();
   
 }
 
 //------------------------------------------------------------------
 void loop() {
   
+  //Taster Prüfen durchgängig
+  UP = digitalRead(T1);     //Zustand von T1 wird in UP gespeichert
+  SELECT = digitalRead(T2); //Zusatnd von T2 wird in SELECT gespeichert
+  DOWN = digitalRead(T3);   //Zustand von T3 wird in DOWN gespeichert
+  
+  //Das Menu beginnt
+
+  startmenu();              //Startmenu anzeigen
+  if (SELECT == HIGH)
+  {
+    displayclear();
+    hauptmenu();
+  }
+  
+  
 
 }
+
+//------------------------------------------------------------------
+//Subroutinen
+
+ //displayclear
+  void displayclear(){
+    lcd.setCursor(0,0);
+    lcd.print("                   ");     //Die 1. Zeile clearen
+    lcd.setCursor(0,1);
+    lcd.print("                   ");     //Die 2. Zeile clearen
+    lcd.setCursor(0,2);
+    lcd.print("                   ");     //Die 3. Zeile clearen
+    lcd.setCursor(0,3);
+    lcd.print("                   ");     //Die 4. Zeile clearen
+    }
+
+ //startmenu
+  void startmenu(){
+    lcd.setCursor(0,0);
+    lcd.print("ARDUINO-HORTICULTURE");
+    lcd.setCursor(0,1);
+    lcd.print("                    ");
+    lcd.setCursor(0,2);
+    lcd.print("       > Menu       ");
+    lcd.setCursor(0,3);
+    lcd.print("BY:    Nils,Heinrich");
+    }
+
+ //hauptmenu
+  void hauptmenu(){
+    lcd.setCursor(0,0);
+    lcd.print("  OVERVIEW          ");
+    lcd.setCursor(0,1);
+    lcd.print("  SETTINGS          ");
+    lcd.setCursor(0,2);
+    lcd.print("  RELAY-TEST        ");
+    lcd.setCursor(0,3);
+    lcd.print("  Back              ");
+    }
+
+ //Neue Subroutine
+ 
+
+ 
