@@ -35,6 +35,18 @@ const int rWasser = 8;  //Relais 1
 const int rLicht = 9;   //Relais 2
 const int rLuft = 10;   //Relais 3
 
+  //Taster
+int T1 = 3;
+int T2 = 4;
+int T3 = 5;
+
+  //Auslese Variablen für Taster
+int UP = 0;
+int SELECT = 0;
+int DOWN = 0;
+
+ 
+
 //------------------------------------------------------------------
 
 void setup() {
@@ -54,10 +66,15 @@ void setup() {
   pinMode(rLicht, OUTPUT);
   pinMode(rLuft, OUTPUT);
 
+  //Taster
+  UP = digitalRead(T1);     //Zustand von T1 wird in UP gespeichert
+  SELECT = digitalRead(T2); //Zusatnd von T2 wird in SELECT gespeichert
+  DOWN = digitalRead(T3);   //Zustand von T3 wird in DOWN gespeichert
+  
 }
 
 //------------------------------------------------------------------
 void loop() {
-  // put your main code here, to run repeatedly:
+  
 
 }
