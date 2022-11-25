@@ -88,6 +88,7 @@ void loop() {
   {
     displayclear();
     hauptmenu();
+    delay(5000);
   }
   
   
