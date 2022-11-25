@@ -38,14 +38,16 @@ const int rLicht = 9;   //Relais 2
 const int rLuft = 10;   //Relais 3
 
   //Taster
-int T1 = 3;
-int T2 = 4;
-int T3 = 5;
+OneButton T1(3,true);
+OneButton T2(4,true);
+OneButton T3(5,true);
 
   //Auslese Variablen für Taster
+  
 int UP = 0;
 int SELECT = 0;
 int DOWN = 0;
+  
 
  
 
@@ -70,6 +72,11 @@ void setup() {
 
   //Zum Start einmal Display clearen
   lcd.clear();
+
+  //Taster
+  T1.attachClick(UP = 1);
+  T2.attachClick(SELECT = 1);
+  T3.attachClick(DOWN = 1);
   
 }
 
@@ -77,14 +84,19 @@ void setup() {
 void loop() {
   
   //Taster Prüfen durchgängig
-  UP = digitalRead(T1);     //Zustand von T1 wird in UP gespeichert
+  T1.tick();
+  T2.tick();
+  T3.tick();
+  
+  /*UP = digitalRead(T1);     //Zustand von T1 wird in UP gespeichert
   SELECT = digitalRead(T2); //Zusatnd von T2 wird in SELECT gespeichert
   DOWN = digitalRead(T3);   //Zustand von T3 wird in DOWN gespeichert
+  */
   
   //Das Menu beginnt
 
   startmenu();              //Startmenu anzeigen
-  if (SELECT == HIGH)
+  if (SELECT == 1)
   {
     displayclear();
     hauptmenu();
@@ -97,6 +109,8 @@ void loop() {
 //------------------------------------------------------------------
 //Subroutinen
 
+
+    
  //displayclear
   void displayclear(){
     lcd.setCursor(0,0);
