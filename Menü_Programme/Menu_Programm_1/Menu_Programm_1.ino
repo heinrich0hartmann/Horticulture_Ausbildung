@@ -9,8 +9,6 @@
 #include <DallasTemperature.h>
 #include <NewPing.h>
 #include <AS_BH1750.h>
-#include <OneButton.h>
-
 
 //------------------------------------------------------------------
 //Definitionen
@@ -37,10 +35,13 @@ const int rWasser = 8;  //Relais 1
 const int rLicht = 9;   //Relais 2
 const int rLuft = 10;   //Relais 3
 
+//------------------------------------------------------------------
+//Definitionen für die Menüfunktion
+
   //Taster
-int T1 = 3;
-int T2 = 4;
-int T3 = 5;
+const int Hoch = 3;
+const int Ok = 4;
+const int Runter = 5;
 
   //Auslese Variablen für Taster
 int UP = 0;
