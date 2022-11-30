@@ -63,7 +63,7 @@ int Luft = false;
 int i = 1;              //Laufvariable für die Menüauswahl
 
   //LCD Ausgabevariablen für direkte Positionierung
-char* a[20];             //Erste Zeile
+char a[20];             //Erste Zeile
 char b[20];             //Zweite Zeile
 char c[20];             //Dritte Zeile
 char d[20];             //Vierte Zeile
@@ -106,7 +106,7 @@ void setup() {
 //Subroutinen
 
 //Funktion für die LCD Ausgabe
-void lcd_Ausgabe (char*a, char*b, char*c, char*d)
+void lcd_Ausgabe (prog char*a, char*b, char*c, char*d)
 {
   lcd.setCursor(0,0);
   lcd.print(a);
@@ -146,7 +146,20 @@ int MenuAuswahl (int i)
 //------------------------------------------------------------------
 void loop() 
 {
+//Menü: Cover
+while(Cover == true)
+{
+  i = MenuAuswahl(i);       //i verhält sich nach der Menü Auswahl Funktion wird also je nach Taste größer oder kleiner
+  //Menügröße
+  if(i == 0) i = 1;
+  if(i == 2) i = 1;
 
+  if(i == 1)
+  {
+    strcpy(a,"
+  }
+  
+}
 
 
   
