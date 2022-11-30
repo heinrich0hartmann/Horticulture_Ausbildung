@@ -38,15 +38,41 @@ const int rLuft = 10;   //Relais 3
 //------------------------------------------------------------------
 //Definitionen für die Menüfunktion
 
-  //Taster
+  //Taster Pin Belegung
 const int Hoch = 3;
 const int Ok = 4;
 const int Runter = 5;
 
-  //Auslese Variablen für Taster
-int UP = 0;
-int SELECT = 0;
-int DOWN = 0;
+  //Taster Status (Funktion+Sta)
+int HochSta = 0;
+int OkSta = 0;
+int RunterSta = 0;
+
+  //Menüvariablen
+int Cover = true;       //Der Start Bildschirm quasie
+int Haupt = false;      //Hauptmenü
+int Übersicht = false;  //Das Parameter Übersichts Menü
+int Parameter = false;  //Das Parameter Übersichtsmenü
+int Temp = false;
+int Licht = false;
+int Humid = false;
+int Relais = false;     //Das Relais Menü
+int Wasser = false;
+int Lampe = false;
+int Luft = false;
+int i = 1;              //Laufvariable für die Menüauswahl
+
+  //LCD Ausgabevariablen für direkte Positionierung
+char* a[20];             //Erste Zeile
+char b[20];             //Zweite Zeile
+char c[20];             //Dritte Zeile
+char d[20];             //Vierte Zeile
+
+  //Taster Entprellung
+unsigned long alteZeit = 0;
+unsigned long entprellZeit = 250;
+
+
 
  
 
@@ -69,73 +95,63 @@ void setup() {
   pinMode(rLicht, OUTPUT);
   pinMode(rLuft, OUTPUT);
 
-  //Zum Start einmal Display clearen
+  //Für Menü
+  lcd.begin(20,4);
   lcd.clear();
-
-//------------------------------------------------------------------
-//Der Menüablauf
-startmenu();              //Startmenu anzeigen
-  if (SELECT == HIGH)
-  {
-    displayclear();
-    hauptmenu();
-  }
+  pinMode(Hoch, INPUT);
+  pinMode(Ok, INPUT);
+  pinMode(Runter, INPUT);
   
-}
-
-//------------------------------------------------------------------
-void loop() {
-  
-  //Taster Prüfen durchgängig
-  UP = digitalRead(T1);     //Zustand von T1 wird in UP gespeichert
-  SELECT = digitalRead(T2); //Zusatnd von T2 wird in SELECT gespeichert
-  DOWN = digitalRead(T3);   //Zustand von T3 wird in DOWN gespeichert
-  
- 
-
-
-}
-
 //------------------------------------------------------------------
 //Subroutinen
 
- //displayclear
-  void displayclear(){
-    lcd.setCursor(0,0);
-    lcd.print("                   ");     //Die 1. Zeile clearen
-    lcd.setCursor(0,1);
-    lcd.print("                   ");     //Die 2. Zeile clearen
-    lcd.setCursor(0,2);
-    lcd.print("                   ");     //Die 3. Zeile clearen
-    lcd.setCursor(0,3);
-    lcd.print("                   ");     //Die 4. Zeile clearen
-    }
+//Funktion für die LCD Ausgabe
+void lcd_Ausgabe (char*a, char*b, char*c, char*d)
+{
+  lcd.setCursor(0,0);
+  lcd.print(a);
+  lcd.setCursor(0,1);
+  lcd.print(b);
+  lcd.setCursor(0,2);
+  lcd.print(c);
+  lcd.setCursor(0,3);
+  lcd.print(d);
+}
 
- //startmenu
-  void startmenu(){
-    lcd.setCursor(0,0);
-    lcd.print("ARDUINO-HORTICULTURE");
-    lcd.setCursor(0,1);
-    lcd.print("                    ");
-    lcd.setCursor(0,2);
-    lcd.print("       > Menu       ");
-    lcd.setCursor(0,3);
-    lcd.print("BY:    Nils,Heinrich");
-    }
+//Funktion für die Menünavigation
+int MenuAuswahl (int i)
+{
+  HochSta = digitalRead(Hoch);
+  RunterSta = digitalRead(Runter);
 
- //hauptmenu
-  void hauptmenu(){
-    lcd.setCursor(0,0);
-    lcd.print("  OVERVIEW          ");
-    lcd.setCursor(0,1);
-    lcd.print("  SETTINGS          ");
-    lcd.setCursor(0,2);
-    lcd.print("  RELAY-TEST        ");
-    lcd.setCursor(0,3);
-    lcd.print("  Back              ");
-    }
+  //Für Hoch navigieren
+  if(HochSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    alteZeit = millis();
+    i--;
+  }
+  
+  //Für Runter navigieren
+  if(RunterSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    alteZeit = millis();
+    i++;
+  }
+  //Für Ok Taste
+  OkSta = digitalRead(Ok);
+  return i;
+    
+}
 
- //Neue Subroutine
+//------------------------------------------------------------------
+void loop() 
+{
+
+
+
+  
+}
+
  
 
  
