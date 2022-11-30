@@ -157,16 +157,5 @@ if (temp <= 24){
 //Pause für Sichtbarkeit
 delay(2500);
 lcd.clear();
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
   
 }
