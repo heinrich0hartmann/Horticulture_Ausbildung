@@ -70,6 +70,15 @@ void setup() {
 
   //Zum Start einmal Display clearen
   lcd.clear();
+
+//------------------------------------------------------------------
+//Der Menüablauf
+startmenu();              //Startmenu anzeigen
+  if (SELECT == HIGH)
+  {
+    displayclear();
+    hauptmenu();
+  }
   
 }
 
@@ -81,17 +90,8 @@ void loop() {
   SELECT = digitalRead(T2); //Zusatnd von T2 wird in SELECT gespeichert
   DOWN = digitalRead(T3);   //Zustand von T3 wird in DOWN gespeichert
   
-  //Das Menu beginnt
+ 
 
-  startmenu();              //Startmenu anzeigen
-  if (SELECT == HIGH)
-  {
-    displayclear();
-    hauptmenu();
-    delay(5000);
-  }
-  
-  
 
 }
 
