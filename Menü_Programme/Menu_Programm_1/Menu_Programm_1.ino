@@ -51,10 +51,10 @@ int RunterSta = 0;
   //Menüvariablen
 int Cover = true;       //Der Start Bildschirm quasie
 int Haupt = false;      //Hauptmenü
-int Übersicht = false;  //Das Parameter Übersichts Menü
-int Parameter = false;  //Das Parameter Übersichtsmenü
+int Overview = false;  //Das Parameter Übersichts Menü
+int Settings = false;  //Das Parameter Übersichtsmenü
 int Temp = false;
-int Licht = false;
+int Light = false;
 int Humid = false;
 int Relais = false;     //Das Relais Menü
 int Wasser = false;
@@ -78,7 +78,8 @@ unsigned long entprellZeit = 250;
 
 //------------------------------------------------------------------
 
-void setup() {
+void setup() 
+{
   Serial.begin(9600);
   Wire.begin();             //I2C beginnt
   lightMeter.begin();       //Lichtsensor beginnt
@@ -101,12 +102,13 @@ void setup() {
   pinMode(Hoch, INPUT);
   pinMode(Ok, INPUT);
   pinMode(Runter, INPUT);
-  
+}
 //------------------------------------------------------------------
 //Subroutinen
 
+
 //Funktion für die LCD Ausgabe
-void lcd_Ausgabe (prog char*a, char*b, char*c, char*d)
+void lcd_Ausgabe (char*a, char*b, char*c, char*d)
 {
   lcd.setCursor(0,0);
   lcd.print(a);
@@ -140,12 +142,13 @@ int MenuAuswahl (int i)
   //Für Ok Taste
   OkSta = digitalRead(Ok);
   return i;
-    
 }
+
 
 //------------------------------------------------------------------
 void loop() 
 {
+
 //Menü: Cover
 while(Cover == true)
 {
@@ -156,14 +159,88 @@ while(Cover == true)
 
   if(i == 1)
   {
-    strcpy(a,"
+    lcd_Ausgabe ("Arduino-Horticulture","                   ","       > MENU       ","                    ");    //Ausgabe des Cover Bildschirms
   }
-  
+  //Sprung ins Hauptmenü
+  if(i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    lcd.clear();      //Könnte man noch anpassen zu ein Array aufrufen das aus Leerzeichen besteht
+    alteZeit = millis();
+    Cover = false;
+    Haupt = true;
+  }
 }
 
+//-----------------------------------------------------------------
+//Menü: Haupt
+while(Haupt == true)
+{
+ i = MenuAuswahl(i);
+ //Menügröße
+ if(i == 0) i = 1;
+ if(i == 5) i = 4;
 
-  
+ //Display Anzeige des Hauptmenüs
+ if(i == 1)
+ {
+  lcd_Ausgabe ("> OVERVIEW          ","  SETTINGS          ","  RELAY-TEST        ","  BACK              ");
+ }
+ if(i == 2)
+ {
+  lcd_Ausgabe ("  OVERVIEW          ","> SETTINGS          ","  RELAY-TEST        ","  BACK              ");
+ }
+ if(i == 3)
+ {
+  lcd_Ausgabe ("  OVERVIEW          ","  SETTINGS          ","> RELAY-TEST        ","  BACK              ");
+ }
+ if(i == 4)
+ {
+  lcd_Ausgabe ("  OVERVIEW          ","  SETTINGS          ","  RELAY-TEST        ","> BACK              ");
+ }
+
+ //In die jeweiligen Menüs springen
+ 
+ if(i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)    //Sprung ins "Overview" Menü
+  {
+    lcd.clear();
+    alteZeit = millis();
+    Haupt = false;
+    Overview = true;
+    i=1;
+  }
+ if(i == 2 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)    //Sprung ins "Settings" Menü
+  {
+    lcd.clear();
+    alteZeit = millis();
+    Haupt = false;
+    Settings = true;
+    i=1;
+  }
+ if(i == 3 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)    //Sprung ins "Relais" Menü
+  {
+    lcd.clear();
+    alteZeit = millis();
+    Haupt = false;
+    Overview = true;
+    i=1;
+  }
+ if(i == 4 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)    //Sprung zurück ins "Cover" Menü
+  {
+    lcd.clear();
+    alteZeit = millis();
+    Haupt = false;
+    Cover = true;
+    i=1;
+  }
 }
+
+//------------------------------------------------------------------
+//Menü: Overview
+
+
+
+
+} //Loop Klammer
 
  
 
