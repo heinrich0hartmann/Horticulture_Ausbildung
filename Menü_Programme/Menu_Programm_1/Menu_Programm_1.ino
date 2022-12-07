@@ -72,9 +72,16 @@ char d[20];             //Vierte Zeile
 unsigned long alteZeit = 0;
 unsigned long entprellZeit = 250;
 
+  //Variablen Zur Relais Schalt Einstellung
+int ONrWasser = 50;
+int OFFrWasser = 70;
+int ONrLicht = 500;
+int ONrLuft = 25;
+int OFFrLuft = 15;
 
-
- 
+  //Display Clear Time
+unsigned long ScreenTime = 0;
+unsigned long ClearTime = 1000;
 
 //------------------------------------------------------------------
 
@@ -107,7 +114,7 @@ void setup()
 //Subroutinen
 
 //Funktion für Wert Ausgabe auf Overview Display
-int OverviewAusgabe ()  //() müssen vielleicht noch Übergabe Parameter
+void OverviewAusgabe ()  //() müssen vielleicht noch Übergabe Parameter
 {
   lcd.setCursor(0,0);   //Temperatur
   lcd.print("TMP: " + String(sensors.getTempCByIndex(0)));  //Temperatur ausgeben
@@ -324,11 +331,12 @@ while(Overview == true)
  i = MenuAuswahl(i);
  //Menügröße
  if(i == 0) i = 1;
- if(i == 3) i = 2;
+ if(i == 2) i = 1;
 
  //Display Anzeige des Overview Menüs
  if(i == 1)
  {
+  OverviewAusgabe ();       //Subroutine OverviewAusgabe wird ausgegeben
   
  }
  
