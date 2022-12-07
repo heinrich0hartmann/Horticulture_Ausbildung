@@ -116,6 +116,23 @@ void setup()
 //Funktion für Wert Ausgabe auf Overview Display
 void OverviewAusgabe ()  //() müssen vielleicht noch Übergabe Parameter
 {
+  //Sensoren Abfrage
+
+  //Abfrage Lichtsensor       Variable = lux
+  int lux = lightMeter.readLightLevel();
+
+  //Abfrage Ultraschallsensor Variable = distance
+  unsigned int distance = sonar.ping_cm();
+
+  //Abfrage Temperatursensor  Variable = temp
+  sensors.requestTemperatures();
+  signed int temp = sensors.getTempCByIndex(0);
+  
+  //Humidity                  Variable = humid/prozent für Prozentanzeige
+  int humid = analogRead(A0);                  //Feuchtigkeit in humid
+  int prozent = map(humid,262,1023,100,0);     //Feuchtigkeit in Prozent ausgeben
+
+  
   lcd.setCursor(0,0);   //Temperatur
   lcd.print("TMP: " + String(sensors.getTempCByIndex(0)));  //Temperatur ausgeben
   
@@ -220,6 +237,7 @@ int MenuAuswahl (int i)
 //------------------------------------------------------------------
 void loop() 
 {
+  /*
 //Sensoren Abfrage
 
   //Abfrage Lichtsensor       Variable = lux
@@ -235,7 +253,7 @@ void loop()
   //Humidity                  Variable = humid/prozent für Prozentanzeige
   int humid = analogRead(A0);                  //Feuchtigkeit in humid
   int prozent = map(humid,262,1023,100,0);     //Feuchtigkeit in Prozent ausgeben
-
+*/
 
 
 //------------------------------------------------------------------
@@ -338,9 +356,9 @@ while(Overview == true)
  {
   OverviewAusgabe ();       //Subroutine OverviewAusgabe wird ausgegeben
   ScreenTime = millis();
-  if((millis() - ScreenTime) > ClearTime)
+  if((millis() - ScreenTime) == ClearTime)
   {
-  lcd_Ausgabe ();
+  lcd.clear();
   }
  }
  //Sprung ins Hauptmenü
