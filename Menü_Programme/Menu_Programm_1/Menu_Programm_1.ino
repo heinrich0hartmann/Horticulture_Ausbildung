@@ -337,12 +337,25 @@ while(Overview == true)
  if(i == 1)
  {
   OverviewAusgabe ();       //Subroutine OverviewAusgabe wird ausgegeben
-  
+  ScreenTime = millis();
+  if((millis() - ScreenTime) > ClearTime)
+  {
+  lcd_Ausgabe ();
+  }
+ }
+ //Sprung ins Hauptmenü
+ if(i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
+ {
+  lcd.clear();
+  alteZeit = millis();
+  Overview = false;
+  Haupt = true;
+  i = 1;
  }
  
 } //Klammer While Schleife
 
-
+//------------------------------------------------------------------
 
 } //Loop Klammer
 
