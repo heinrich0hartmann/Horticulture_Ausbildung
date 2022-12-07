@@ -106,6 +106,12 @@ void setup()
 //------------------------------------------------------------------
 //Subroutinen
 
+//Funktion für Wert Ausgabe auf Overview Display
+int OverviewAusgabe ()  //() müssen vielleicht noch Übergabe Parameter
+{
+  
+}
+
 
 //Funktion für die LCD Ausgabe
 void lcd_Ausgabe (char*a, char*b, char*c, char*d)
@@ -148,7 +154,25 @@ int MenuAuswahl (int i)
 //------------------------------------------------------------------
 void loop() 
 {
+//Sensoren Abfrage
 
+  //Abfrage Lichtsensor       Variable = lux
+  int lux = lightMeter.readLightLevel();
+
+  //Abfrage Ultraschallsensor Variable = distance
+  unsigned int distance = sonar.ping_cm();
+
+  //Abfrage Temperatursensor  Variable = temp
+  sensors.requestTemperatures();
+  signed int temp = sensors.getTempCByIndex(0);
+  
+  //Humidity                  Variable = humid/prozent für Prozentanzeige
+  int humid = analogRead(A0);                  //Feuchtigkeit in humid
+  int prozent = map(humid,262,1023,100,0);     //Feuchtigkeit in Prozent ausgeben
+
+
+
+//------------------------------------------------------------------
 //Menü: Cover
 while(Cover == true)
 {
@@ -236,7 +260,20 @@ while(Haupt == true)
 
 //------------------------------------------------------------------
 //Menü: Overview
+while(Overview == true)
+{
+ i = MenuAuswahl(i);
+ //Menügröße
+ if(i == 0) i = 1;
+ if(i == 3) i = 2;
 
+ //Display Anzeige des Overview Menüs
+ if(i == 1)
+ {
+  
+ }
+ 
+} //Klammer While Schleife
 
 
 
