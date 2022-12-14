@@ -72,9 +72,17 @@ char d[20];             //Vierte Zeile
 unsigned long alteZeit = 0;
 unsigned long entprellZeit = 250;
 
+  //Variablen Zur Relais Schalt Einstellung
+int ONrWasser = 50;
+int OFFrWasser = 70;
+int ONrLicht = 500;
+int ONrLuft = 25;
+int OFFrLuft = 15;
 
-
- 
+  //Display Clear Time
+unsigned long ScreenTime = 0;
+unsigned long TimeNow = 0;
+int ClearTime = 5000;
 
 //------------------------------------------------------------------
 
@@ -102,10 +110,15 @@ void setup()
   pinMode(Hoch, INPUT);
   pinMode(Ok, INPUT);
   pinMode(Runter, INPUT);
+
+  //Für Display Clear mit Millis
+  ScreenTime = millis();
 }
 //------------------------------------------------------------------
 //Subroutinen
 
+//Funktion für Wert Ausgabe auf Overview Display
+void Subroutine_Overview();       //In neuem Tab
 
 //Funktion für die LCD Ausgabe
 void lcd_Ausgabe (char*a, char*b, char*c, char*d)
@@ -236,9 +249,37 @@ while(Haupt == true)
 
 //------------------------------------------------------------------
 //Menü: Overview
+while(Overview == true)
+{
+ i = MenuAuswahl(i);
+ //Menügröße
+ if(i == 0) i = 1;
+ if(i == 3) i = 2;
 
+ //Display Anzeige des Overview Menüs
+ if(i == 1)
+ {
+  OverviewAusgabe ();       //Subroutine OverviewAusgabe wird ausgegeben
+ }
+ 
+ if (i == 2)
+ {
+  lcd_Ausgabe ("                    ","                    ","                    ","             >BACK  ");
+ }
+ 
+ //Sprung ins Hauptmenü
+ if(i == 2 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
+ {
+  lcd.clear();
+  alteZeit = millis();
+  Overview = false;
+  Haupt = true;
+  i = 1;
+ }
+ 
+} //Klammer While Schleife
 
-
+//------------------------------------------------------------------
 
 } //Loop Klammer
 
