@@ -81,7 +81,8 @@ int OFFrLuft = 15;
 
   //Display Clear Time
 unsigned long ScreenTime = 0;
-unsigned long ClearTime = 1000;
+unsigned long TimeNow = 0;
+int ClearTime = 5000;
 
 //------------------------------------------------------------------
 
@@ -109,6 +110,9 @@ void setup()
   pinMode(Hoch, INPUT);
   pinMode(Ok, INPUT);
   pinMode(Runter, INPUT);
+
+  //Für Display Clear mit Millis
+  ScreenTime = millis();
 }
 //------------------------------------------------------------------
 //Subroutinen
@@ -126,7 +130,7 @@ void OverviewAusgabe ()  //() müssen vielleicht noch Übergabe Parameter
 
   //Abfrage Temperatursensor  Variable = temp
   sensors.requestTemperatures();
-  signed int temp = sensors.getTempCByIndex(0);
+  float temp = sensors.getTempCByIndex(0);
   
   //Humidity                  Variable = humid/prozent für Prozentanzeige
   int humid = analogRead(A0);                  //Feuchtigkeit in humid
@@ -134,7 +138,9 @@ void OverviewAusgabe ()  //() müssen vielleicht noch Übergabe Parameter
 
   
   lcd.setCursor(0,0);   //Temperatur
-  lcd.print("TMP: " + String(sensors.getTempCByIndex(0)));  //Temperatur ausgeben
+  lcd.print("TMP: ");  //Temperatur ausgeben
+  lcd.setCursor(5,0);
+  lcd.print(temp);
   
   lcd.setCursor(0,1);   //Lichtintensität
   lcd.print("LGT: ");
@@ -157,7 +163,7 @@ void OverviewAusgabe ()  //() müssen vielleicht noch Übergabe Parameter
   digitalWrite(rWasser, HIGH);   //Wasser ein
   
   lcd.setCursor(13,2);
-  lcd.print("R1: ON");
+  lcd.print("R1: ON ");
 
   lcd.setCursor(13,3);
   lcd.print("> Back");
@@ -173,7 +179,7 @@ void OverviewAusgabe ()  //() müssen vielleicht noch Übergabe Parameter
   if (lux <= ONrLicht){                                          //Grenze Licht ON Variable: ONrLicht
   digitalWrite(rLicht, HIGH);   //Lampe ein
   lcd.setCursor(13,1);
-  lcd.print("R2: ON");
+  lcd.print("R2: ON ");
   }
   else{
   digitalWrite(rLicht, LOW);  //Licht aus
@@ -185,14 +191,20 @@ void OverviewAusgabe ()  //() müssen vielleicht noch Übergabe Parameter
   if (temp >= ONrLuft){                                          //Grenze Lüfter ON Variable: ONrLuft
   digitalWrite(rLuft, HIGH);   //Lüfter ein 
   lcd.setCursor(13,0);
-  lcd.print("R3: ON");
+  lcd.print("R3: ON ");
   }
   if (temp <= OFFrLuft){                                         //Grenze Lüfter OFF Variable: OFFrLuft
   digitalWrite(rLuft, LOW); //Lüfter aus
   lcd.setCursor(13,0);
   lcd.print("R3: OFF");
   }
+  else {                                                         //Für Bereich zwischen Grenzwerten
+  digitalWrite(rLuft, LOW); //Lüfter aus
+  lcd.setCursor(13,0);
+  lcd.print("R3: OFF");
+  }
 
+  
 } //Schlussklammer Overview Subroutine
 
 
@@ -237,26 +249,7 @@ int MenuAuswahl (int i)
 //------------------------------------------------------------------
 void loop() 
 {
-  /*
-//Sensoren Abfrage
 
-  //Abfrage Lichtsensor       Variable = lux
-  int lux = lightMeter.readLightLevel();
-
-  //Abfrage Ultraschallsensor Variable = distance
-  unsigned int distance = sonar.ping_cm();
-
-  //Abfrage Temperatursensor  Variable = temp
-  sensors.requestTemperatures();
-  signed int temp = sensors.getTempCByIndex(0);
-  
-  //Humidity                  Variable = humid/prozent für Prozentanzeige
-  int humid = analogRead(A0);                  //Feuchtigkeit in humid
-  int prozent = map(humid,262,1023,100,0);     //Feuchtigkeit in Prozent ausgeben
-*/
-
-
-//------------------------------------------------------------------
 //Menü: Cover
 while(Cover == true)
 {
@@ -349,20 +342,27 @@ while(Overview == true)
  i = MenuAuswahl(i);
  //Menügröße
  if(i == 0) i = 1;
- if(i == 2) i = 1;
+ if(i == 3) i = 2;
 
  //Display Anzeige des Overview Menüs
  if(i == 1)
  {
   OverviewAusgabe ();       //Subroutine OverviewAusgabe wird ausgegeben
-  ScreenTime = millis();
-  if((millis() - ScreenTime) == ClearTime)
+  //Funktion für regelmäßiges Clearen
+  TimeNow = millis();
+  if((TimeNow - ScreenTime) >= ClearTime)
   {
-  lcd.clear();
+  //Hier muss irgendwas hin um die Überschreibung von Werten zu Verhindern!
+  ScreenTime = TimeNow;
   }
  }
+ if (i == 2)
+ {
+  lcd_Ausgabe ("                    ","                    ","                    ","             >BACK  ");
+ }
+ 
  //Sprung ins Hauptmenü
- if(i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
+ if(i == 2 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
  {
   lcd.clear();
   alteZeit = millis();
