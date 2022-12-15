@@ -427,12 +427,25 @@ while(Relais == true)
      i=1;
     }
 
-  
 } //Kalmmer while Relais
 
 //------------------------------------------------------------------
 //Untermenüs Für Relais Test.....
+while(Wasser == true)
+{
+  i= MenuAuswahl(i);
+  //Menügröße
+  if(i == 0) i = 1;
+  if(i == 4) i = 3;
 
+  //Display Anzeige des Wasser Menüs
+  if(i == 1)
+  {
+    lcd_Ausgabe("Water-Pump","> ON","  OFF","
+  }
+
+  
+} //Klammer while Wasser
 
 
 } //Loop Klammer
