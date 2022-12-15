@@ -61,6 +61,9 @@ int Wasser = false;
 int Lampe = false;
 int Luft = false;
 int i = 1;              //Laufvariable für die Menüauswahl
+int Upper = false;      // Einstellmenü Settings
+int Lower = false;      //Einstellmenü Settings
+
 
   //LCD Ausgabevariablen für direkte Positionierung
 char a[20];             //Erste Zeile
@@ -349,22 +352,156 @@ while(Settings == true)
 //Menü: Humid
 while(Humid == true)
 {
+  i = MenuAuswahl (i);
+  //Menügrößen
+  if (i==0) i=1;
+  if (i==4) i=3;
   
+  // Displayanzeige des Humidity Menüs
+  if (i==1){
+    lcd_Ausgabe ("> UPPER LIMIT:      ","  LOWER LIMIT:      ","                    ","  BACK              ");
+  }
+  if (i==2){
+    lcd_Ausgabe ("  UPPER LIMIT:      ","> LOWER LIMIT:      ","                    ","  BACK              ");
+  }
+  if (i==3){
+    lcd_Ausgabe ("  UPPER LIMIT:      ","  LOWER LIMIT:      ","                    ","> BACK              ");
+  }
+   
+   // In die jeweiligen Menüs springen
+  if (i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Upper
+  {
+    lcd.clear();
+    alteZeit = millis();
+    Humid = false;
+    Upper = true;
+    i=1;
+  }
+  if (i == 2 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Lower
+  {
+    lcd.clear();
+    alteZeit = millis();
+    Humid = false;
+    Lower = true;
+    i = 1;
+  }
+  if (i == 3 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Back
+  {
+    lcd.clear();
+    alteZeit = millis();
+    Humid = false;
+    Settings = true;
+    i=1;
+  }
 } // Klammer While Humid
 
 //------------------------------------------------------------------
 //Menü: Light
 while(Light == true)
 {
+  i = MenuAuswahl(i);
+  //Menügrößen
+  if (i==0) i=1;
+  if (i==4) i=3;
   
+  // Displayanzeige des Lighting Menüs
+  if (i==1){
+    lcd_Ausgabe ("> UPPER LIMIT:      ","  LOWER LIMIT:      ","                    ","  BACK              ");
+  }
+  if (i==2){
+    lcd_Ausgabe ("  UPPER LIMIT:      ","> LOWER LIMIT:      ","                    ","  BACK              ");
+  }
+  if (i==3){
+    lcd_Ausgabe ("  UPPER LIMIT:      ","  LOWER LIMIT:      ","                    ","> BACK              ");
+  }
+   
+   // In die jeweiligen Menüs springen
+  if (i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Upper
+  {
+    lcd.clear();
+    alteZeit = millis();
+    Light = false;
+    Upper = true;
+    i=1;
+  }
+  if (i == 2 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Lower
+  {
+    lcd.clear();
+    alteZeit = millis();   
+    Light = false;
+    Lower = true;
+    i = 1;
+  }
+  if (i == 3 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) //Back
+  {
+    lcd.clear();
+    alteZeit = millis();
+    Light = false;
+    Settings = true;
+    i=1;
+  }
 } //Klammer While Light
 
 //------------------------------------------------------------------
 //Menü: Temp
 while(Temp == true)
 {
+  i = MenuAuswahl(i);
+  //Menügrößen
+  if (i==0) i=1;
+  if (i==4) i=3;
   
+  // Displayanzeige des Lighting Menüs
+  if (i==1){
+    lcd_Ausgabe ("> UPPER LIMIT:      ","  LOWER LIMIT:      ","                    ","  BACK              ");
+  }
+  if (i==2){
+    lcd_Ausgabe ("  UPPER LIMIT:      ","> LOWER LIMIT:      ","                    ","  BACK              ");
+  }
+  if (i==3){
+    lcd_Ausgabe ("  UPPER LIMIT:      ","  LOWER LIMIT:      ","                    ","> BACK              ");
+  }
+   
+   // In die jeweiligen Menüs springen
+  if (i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Upper
+  {
+    lcd.clear();
+    alteZeit = millis();
+    Temp = false;
+    Upper = true;
+    i=1;
+  }
+  if (i == 2 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Lower
+  {
+    lcd.clear();
+    alteZeit = millis();
+    Temp = false;
+    Lower = true;
+    i = 1;
+  }
+  if (i == 3 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Back
+  {
+    lcd.clear();
+    alteZeit = millis();
+    Temp = false;
+    Settings = true;
+    i=1;
+  }
 } //Klammer While Temp
+
+//------------------------------------------------------------------
+// Menü Upper
+while(Upper == true)
+{
+
+} //Klammer While Upper
+
+//------------------------------------------------------------------
+// Menü Lower
+while(Lower == true)
+{
+
+} //Klammer While Lower
 
 //------------------------------------------------------------------
 //Menü: Relais
@@ -426,9 +563,14 @@ while(Relais == true)
      Haupt = true;
      i=1;
     }
+} //Klammer while Relais
 
-  
-} //Kalmmer while Relais
+
+
+
+
+
+
 
 //------------------------------------------------------------------
 //Untermenüs Für Relais Test.....
