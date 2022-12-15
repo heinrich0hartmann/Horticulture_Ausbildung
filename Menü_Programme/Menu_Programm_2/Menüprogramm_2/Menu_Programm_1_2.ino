@@ -234,7 +234,7 @@ while(Haupt == true)
     lcd.clear();
     alteZeit = millis();
     Haupt = false;
-    Overview = true;
+    Relais = true;
     i=1;
   }
  if(i == 4 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)    //Sprung zurück ins "Cover" Menü
@@ -277,9 +277,163 @@ while(Overview == true)
   i = 1;
  }
  
-} //Klammer While Schleife
+} //Klammer While Overview
 
 //------------------------------------------------------------------
+//Menü: Settings
+while(Settings == true)
+{
+  i = MenuAuswahl(i);
+  //Menügröße
+  if(i == 0) i = 1;
+  if(i == 5) i = 4;
+
+  //Display Anzeige des Settings Menü
+  if(i == 1)
+  {
+    lcd_Ausgabe ("> HUMIDITY          ","  LIGHTING          ","  VENTILATION       ","  BACK              ");
+  }
+  if(i == 2)
+  {
+    lcd_Ausgabe ("  HUMIDITY          ","> LIGHTING          ","  VENTILATION       ","  BACK              ");
+  }
+  if(i == 3)
+  {
+    lcd_Ausgabe ("  HUMIDITY          ","  LIGHTING          ","> VENTILATION       ","  BACK              ");
+  }
+  if(i == 4)
+  {
+    lcd_Ausgabe ("  HUMIDITY          ","  LIGHTING          ","  VENTILATION       ","> BACK              ");
+  }
+
+  //In die jeweiligen Menüs springen
+  if(i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)    //Sprung ins "Humid" Menü
+    {
+    lcd.clear();
+    alteZeit = millis();
+    Settings = false;
+    Humid = true;
+    i=1;
+    }
+
+  if(i == 2 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)    //Sprung ins "Light" Menü
+    {
+    lcd.clear();
+    alteZeit = millis();
+    Settings = false;
+    Light = true;
+    i=1;
+    }
+
+  if(i == 3 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)    //Sprung ins "Temp" Menü
+    {
+    lcd.clear();
+    alteZeit = millis();
+    Settings = false;
+    Temp = true;
+    i=1;
+    }
+
+  if(i == 4 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)    //Sprung ins "Haupt" Menü
+    {
+    lcd.clear();
+    alteZeit = millis();
+    Settings = false;
+    Haupt = true;
+    i=1;
+    }
+ 
+} //Klammer While Settings
+
+//------------------------------------------------------------------
+//Menü: Humid
+while(Humid == true)
+{
+  
+} // Klammer While Humid
+
+//------------------------------------------------------------------
+//Menü: Light
+while(Light == true)
+{
+  
+} //Klammer While Light
+
+//------------------------------------------------------------------
+//Menü: Temp
+while(Temp == true)
+{
+  
+} //Klammer While Temp
+
+//------------------------------------------------------------------
+//Menü: Relais
+while(Relais == true)
+{
+  i = MenuAuswahl(i);
+  //Menügröße
+  if(i == 0) i = 1;
+  if(i == 5) i = 4;
+
+  //Display Anzeige des Relais Menüs
+  if(i == 1)
+  {
+    lcd_Ausgabe("> R1 WATER-PUMP     ","  R2 LIGHTNING-LED  ","  R3 VENTILATION    ","  BACK              ");
+  }
+  if(i == 2)
+  {
+    lcd_Ausgabe("  R1 WATER-PUMP     ","> R2 LIGHTNING-LED  ","  R3 VENTILATION    ","  BACK              ");
+  }
+  if(i == 3)
+  {
+    lcd_Ausgabe("  R1 WATER-PUMP     ","  R2 LIGHTNING-LED  ","> R3 VENTILATION    ","  BACK              ");
+  }
+  if(i == 4)
+  {
+    lcd_Ausgabe("  R1 WATER-PUMP     ","  R2 LIGHTNING-LED  ","  R3 VENTILATION    ","> BACK              ");
+  }
+
+  //In die jeweiligen Menüs springen
+  if(i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)    //Sprung ins "Wasser" Menü
+    {
+     lcd.clear();
+     alteZeit = millis();
+     Relais = false;
+     Wasser = true;
+     i=1;
+    }
+  if(i == 2 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)    //Sprung ins "Lampe" Menü
+    {
+     lcd.clear();
+     alteZeit = millis();
+     Relais = false;
+     Lampe = true;
+     i=1;
+    }
+  if(i == 3 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)    //Sprung ins "Luft" Menü
+    {
+     lcd.clear();
+     alteZeit = millis();
+     Relais = false;
+     Luft = true;
+     i=1;
+    }
+  if(i == 4 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)    //Sprung ins "Humid" Menü
+    {
+     lcd.clear();
+     alteZeit = millis();
+     Relais = false;
+     Haupt = true;
+     i=1;
+    }
+
+  
+} //Kalmmer while Relais
+
+//------------------------------------------------------------------
+//Untermenüs Für Relais Test.....
+
+
 
 } //Loop Klammer
 
