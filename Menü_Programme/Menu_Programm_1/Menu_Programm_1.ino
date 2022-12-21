@@ -61,6 +61,8 @@ int Wasser = false;
 int Lampe = false;
 int Luft = false;
 int i = 1;              //Laufvariable für die Menüauswahl
+int Upper = false;
+int Lower = false;
 
   //LCD Ausgabevariablen für direkte Positionierung
 char a[20];             //Erste Zeile
@@ -567,11 +569,123 @@ while(Wasser == true)
   //Display Anzeige des Wasser Menüs
   if(i == 1)
   {
-    lcd_Ausgabe("Water-Pump","> ON","  OFF","
+    lcd_Ausgabe("Water-Pump:","> ON","  OFF","  Back");
+  }
+  if(i == 2)
+  {
+    lcd_Ausgabe("Water-Pump:","  ON","> OFF","  Back");
+  }
+  if(i == 3)
+  {
+    lcd_Ausgabe("Water-Pump:","  ON","  OFF","> Back");
   }
 
-  
+  //Einschlatung der Relais
+  if(i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    digitalWrite(rWasser, HIGH);
+    alteZeit = millis();
+  }
+  if(i == 2 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    digitalWrite(rWasser, LOW);
+    alteZeit = millis();
+  }
+  if(i == 3 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    lcd.clear();
+    alteZeit = millis();
+    Wasser = false;
+    Relais = true;
+    i=1;
+  }
 } //Klammer while Wasser
+
+while(Lampe == true)
+{
+  i= MenuAuswahl(i);
+  //Menügröße
+  if(i == 0) i = 1;
+  if(i == 4) i = 3;
+
+  //Display Anzeige des Lampe Menüs
+  if(i == 1)
+  {
+    lcd_Ausgabe("Lamp:","> ON","  OFF","  Back");
+  }
+  if(i == 2)
+  {
+    lcd_Ausgabe("Lamp:","  ON","> OFF","  Back");
+  }
+  if(i == 3)
+  {
+    lcd_Ausgabe("Lamp:","  ON","  OFF","> Back");
+  }
+
+  //Einschlatung der Relais
+  if(i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    digitalWrite(rLicht, HIGH);
+    alteZeit = millis();
+  }
+  if(i == 2 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    digitalWrite(rLicht, LOW);
+    alteZeit = millis();
+  }
+  if(i == 3 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    lcd.clear();
+    alteZeit = millis();
+    Lampe = false;
+    Relais = true;
+    i=1;
+  }
+} //Klammer while Lampe
+
+while(Luft == true)
+{
+  i= MenuAuswahl(i);
+  //Menügröße
+  if(i == 0) i = 1;
+  if(i == 4) i = 3;
+
+  //Display Anzeige des Luft Menüs
+  if(i == 1)
+  {
+    lcd_Ausgabe("Ventilator:","> ON","  OFF","  Back");
+  }
+  if(i == 2)
+  {
+    lcd_Ausgabe("Ventilator:","  ON","> OFF","  Back");
+  }
+  if(i == 3)
+  {
+    lcd_Ausgabe("Ventilator:","  ON","  OFF","> Back");
+  }
+
+  //Einschlatung der Relais
+  if(i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    digitalWrite(rLuft, HIGH);
+    alteZeit = millis();
+  }
+  if(i == 2 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    digitalWrite(rLuft, LOW);
+    alteZeit = millis();
+  }
+  if(i == 3 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    lcd.clear();
+    alteZeit = millis();
+    Luft = false;
+    Relais = true;
+    i=1;
+  }
+} //Klammer while Luft
+
+
 
 
 } //Loop Klammer
