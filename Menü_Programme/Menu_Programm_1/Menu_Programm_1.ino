@@ -358,13 +358,13 @@ while(Humid == true)
   
   // Displayanzeige des Humidity Menüs
   if (i==1){
-    lcd_Ausgabe ("> UPPER LIMIT:      ","  LOWER LIMIT:      ","                    ","  BACK              ");
+    lcd_Ausgabe ("Settings Humidity:","> UPPER LIMIT:      ","  LOWER LIMIT:      ","  BACK              ");
   }
   if (i==2){
-    lcd_Ausgabe ("  UPPER LIMIT:      ","> LOWER LIMIT:      ","                    ","  BACK              ");
+    lcd_Ausgabe ("Settings Humidity:","  UPPER LIMIT:      ","> LOWER LIMIT:      ","  BACK              ");
   }
   if (i==3){
-    lcd_Ausgabe ("  UPPER LIMIT:      ","  LOWER LIMIT:      ","                    ","> BACK              ");
+    lcd_Ausgabe ("Settings Humidity:","  UPPER LIMIT:      ","  LOWER LIMIT:      ","> BACK              ");
   }
    
    // In die jeweiligen Menüs springen
@@ -405,13 +405,13 @@ while(Light == true)
   
   // Displayanzeige des Lighting Menüs
   if (i==1){
-    lcd_Ausgabe ("> UPPER LIMIT:      ","  LOWER LIMIT:      ","                    ","  BACK              ");
+    lcd_Ausgabe ("Settings Light:","> UPPER LIMIT:      ","  LOWER LIMIT:      ","  BACK              ");
   }
   if (i==2){
-    lcd_Ausgabe ("  UPPER LIMIT:      ","> LOWER LIMIT:      ","                    ","  BACK              ");
+    lcd_Ausgabe ("Settings Light:","  UPPER LIMIT:      ","> LOWER LIMIT:      ","  BACK              ");
   }
   if (i==3){
-    lcd_Ausgabe ("  UPPER LIMIT:      ","  LOWER LIMIT:      ","                    ","> BACK              ");
+    lcd_Ausgabe ("Settings Light:","  UPPER LIMIT:      ","  LOWER LIMIT:      ","> BACK              ");
   }
    
    // In die jeweiligen Menüs springen
@@ -450,15 +450,15 @@ while(Temp == true)
   if (i==0) i=1;
   if (i==4) i=3;
   
-  // Displayanzeige des Lighting Menüs
+  // Displayanzeige des Temp Menüs
   if (i==1){
-    lcd_Ausgabe ("> UPPER LIMIT:      ","  LOWER LIMIT:      ","                    ","  BACK              ");
+    lcd_Ausgabe ("Settings Temperatur:","> UPPER LIMIT:      ","  LOWER LIMIT:      ","  BACK              ");
   }
   if (i==2){
-    lcd_Ausgabe ("  UPPER LIMIT:      ","> LOWER LIMIT:      ","                    ","  BACK              ");
+    lcd_Ausgabe ("Settings Temperatur:","  UPPER LIMIT:      ","> LOWER LIMIT:      ","  BACK              ");
   }
   if (i==3){
-    lcd_Ausgabe ("  UPPER LIMIT:      ","  LOWER LIMIT:      ","                    ","> BACK              ");
+    lcd_Ausgabe ("Settings Temperatur:","  UPPER LIMIT:      ","  LOWER LIMIT:      ","> BACK              ");
   }
    
    // In die jeweiligen Menüs springen
@@ -684,8 +684,6 @@ while(Luft == true)
     i=1;
   }
 } //Klammer while Luft
-
-
 
 
 } //Loop Klammer
