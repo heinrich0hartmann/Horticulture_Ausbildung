@@ -433,6 +433,7 @@ while(Humid == true)
 //Menü: HumidUPPER
 while (HumidUPPER == true)
 {
+  i = MenuAuswahl (i);
   if (HochSta == HIGH && (millis() - alteZeit) > entprellZeit)
   {
     lcd.setCursor(16,1);
