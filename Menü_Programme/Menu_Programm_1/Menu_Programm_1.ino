@@ -406,7 +406,8 @@ while(Humid == true)
    // In die jeweiligen Menüs springen
   if (i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // In Menü: HumidUPPER zum Einstellen
   {
-    lcd.clear();
+    lcd.setCursor(16,1);
+    lcd.print(ONrWasser);
     alteZeit = millis();
     Humid = false;
     HumidUPPER = true;
@@ -414,7 +415,6 @@ while(Humid == true)
   }
   if (i == 2 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // In Menü: HumidLOWER zum Einstellen
   {
-    lcd.clear();
     alteZeit = millis();
     Humid = false;
     HumidLOWER = true;
@@ -433,7 +433,35 @@ while(Humid == true)
 //Menü: HumidUPPER
 while (HumidUPPER == true)
 {
-  
+  if (HochSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    lcd.setCursor(16,1);
+    lcd.print("    ");
+    ONrWasser = ONrWasser +1;
+    lcd.setCursor(16,1);
+    lcd.print(ONrWasser);
+    alteZeit = millis();
+  }
+
+  if (RunterSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    lcd.setCursor(16,1);
+    lcd.print("    ");
+    ONrWasser = ONrWasser -1;
+    lcd.setCursor(16,1);
+    lcd.print(ONrWasser);
+    alteZeit = millis();
+  }
+
+  if (ONrWasser > 100){ ONrWasser = 100; }      //Grenzen Upper Limit
+  if (ONrWasser < 0) { ONrWasser = 0; }
+
+  if (OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    HumidUPPER == false;
+    Humid == true;
+    alteZeit = millis();
+  }
   
 }
 
