@@ -118,35 +118,38 @@ void setup()
   pinMode(Ok, INPUT);
   pinMode(Runter, INPUT);
 
-  //Variablen in EEPROM speichern
-  EEPROM.write(0, ONrWasser);            //ONrWasser
-  Serial.println(EEPROM.read(0));          //kontrolle ob im EEPROM
-  EEPROM.write(1, OFFrWasser);           //OFFrWasser
-  Serial.println(EEPROM.read(1));
-  
-  EEPROM.write(2, ONrLuft);
-  Serial.println(EEPROM.read(2));
-  EEPROM.write(3, OFFrLuft);
-  Serial.println(EEPROM.read(3));
-
-//Für Int Licht
-  byte byte_4 = (ONrLicht & 0xFF);
-  byte byte_5 = ((ONrLicht >> 8) & 0xFF);
-  EEPROM.write(4, byte_4);
-  EEPROM.write(5, byte_5);
-
-  long byte_4E = EEPROM.read(4);
-  long byte_5E = EEPROM.read(5);
-  int LichtLevel = ((byte_4E << 0) & 0xFFFFFF) + ((byte_5E <<8) & 0xFFFFFFFF);
-  Serial.println(LichtLevel);
-
-  
-
   //Für Display Clear mit Millis
   ScreenTime = millis();
 }
 //------------------------------------------------------------------
 //Subroutinen
+
+//Funktion Für EEPROM
+
+//Variablen in EEPROM speichern wenn diese Verändert wurden
+void SpeichernEEPROM ()
+{
+    EEPROM.update(0, ONrWasser);            //ONrWasser Checken ob geändert
+    ONrWasser = EEPROM.read(0);            //Damit bei Programm Neustart in ONrWasser automatisch eingestellte Variable steht
+    
+    EEPROM.update(1, OFFrWasser);           //OFFrWasser Checken ob geändert
+    OFFrWasser = EEPROM.read(1);
+    
+    EEPROM.update(2, ONrLuft);              //ONrLuft Checken ob geändert
+    ONrLuft = EEPROM.read(2);
+
+    EEPROM.update(3, OFFrLuft);             //OFFrLuft Checken ob geändert
+    OFFrLuft = EEPROM.read(3);
+  
+    byte byte_4 = (ONrLicht & 0xFF);        //ONrLicht Checken ob geändert
+    byte byte_5 = ((ONrLicht >> 8) & 0xFF);
+    EEPROM.update(4, byte_4);
+    EEPROM.update(5, byte_5);
+
+    long byte_4E = EEPROM.read(4);
+    long byte_5E = EEPROM.read(5);
+    ONrLicht = ((byte_4E << 0) & 0xFFFFFF) + ((byte_5E <<8) & 0xFFFFFFFF);  
+}
 
 //Funktion für Wert Ausgabe auf Overview Display
 void Subroutine_Overview();       //In neuem Tab
@@ -192,6 +195,10 @@ int MenuAuswahl (int i)
 //------------------------------------------------------------------
 void loop() 
 {
+
+//Speichern EEPROM dauerhaft abfragen num Änderungen einzustellen
+SpeichernEEPROM ();
+
 
 //Menü: Cover
 while(Cover == true)
