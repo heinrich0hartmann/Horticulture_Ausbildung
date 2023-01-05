@@ -51,17 +51,23 @@ int RunterSta = 0;
   //Menüvariablen
 int Cover = true;       //Der Start Bildschirm quasie
 int Haupt = false;      //Hauptmenü
-int Overview = false;  //Das Parameter Übersichts Menü
-int Settings = false;  //Das Parameter Übersichtsmenü
-int Temp = false;
-int Light = false;
-int Humid = false;
+int Overview = false;   //Das Parameter Übersichts Menü
+int Settings = false;   //Das Parameter Übersichtsmenü
+int Temp = false;       //Temperature Grenzen Menü
+int TempUpper = false;
+int TempLOWER = false
+int Light = false;      //Light Grenzen Menü
+int LightLOWER = false;
+int Humid = false;      //Humidity Grenzen Menü
+int HumidUPPER = false;
+int HumidLOWER = false;
 int Relais = false;     //Das Relais Menü
-int Wasser = false;
-int Lampe = false;
-int Luft = false;
+int Wasser = false;     //Relais Wasser
+int Lampe = false;      //Relais Licht
+int Luft = false;       //Relais Luft
 int i = 1;              //Laufvariable für die Menüauswahl
-int Upper = false;
+
+int 
 int Lower = false;
 
   //LCD Ausgabevariablen für direkte Positionierung
@@ -368,23 +374,23 @@ while(Humid == true)
   }
    
    // In die jeweiligen Menüs springen
-  if (i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Upper
+  if (i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // In Menü: HumidUPPER zum Einstellen
   {
     lcd.clear();
     alteZeit = millis();
     Humid = false;
-    Upper = true;
+    HumidUPPER = true;
     i=1;
   }
-  if (i == 2 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Lower
+  if (i == 2 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // In Menü: HumidLOWER zum Einstellen
   {
     lcd.clear();
     alteZeit = millis();
     Humid = false;
-    Lower = true;
+    HumidLOWER = true;
     i = 1;
   }
-  if (i == 3 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Back
+  if (i == 3 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Back to Menu: Settings
   {
     lcd.clear();
     alteZeit = millis();
@@ -393,6 +399,13 @@ while(Humid == true)
     i=1;
   }
 } // Klammer While Humid
+//------------------------------------------------------------------
+//Menü: HumidUPPER
+while (HumidUPPER == true)
+{
+  
+  
+}
 
 //------------------------------------------------------------------
 //Menü: Light
