@@ -9,7 +9,7 @@
 #include <DallasTemperature.h>
 #include <NewPing.h>
 #include <AS_BH1750.h>
-
+#include <EEPROM.h>
 //------------------------------------------------------------------
 //Definitionen
 
@@ -61,9 +61,11 @@ int Wasser = false;
 int Lampe = false;
 int Luft = false;
 int i = 1;              //Laufvariable für die Menüauswahl
-int Upper = false;      // Einstellmenü Settings
-int Lower = false;      //Einstellmenü Settings
-
+int UpperHumid = false;
+int LowerHumid = false;
+int LimitLight = false;
+int UpperTemp = false;
+int LowerTemp = false;
 
   //LCD Ausgabevariablen für direkte Positionierung
 char a[20];             //Erste Zeile
@@ -113,7 +115,7 @@ void setup()
   pinMode(Hoch, INPUT);
   pinMode(Ok, INPUT);
   pinMode(Runter, INPUT);
-
+  
   //Für Display Clear mit Millis
   ScreenTime = millis();
 }
@@ -359,30 +361,29 @@ while(Humid == true)
   
   // Displayanzeige des Humidity Menüs
   if (i==1){
-    lcd_Ausgabe ("> UPPER LIMIT:      ","  LOWER LIMIT:      ","                    ","  BACK              ");
+    lcd_Ausgabe ("Settings Humidity:","> UPPER LIMIT:      ","  LOWER LIMIT:      ","  BACK              ");
   }
   if (i==2){
-    lcd_Ausgabe ("  UPPER LIMIT:      ","> LOWER LIMIT:      ","                    ","  BACK              ");
+    lcd_Ausgabe ("Settings Humidity:","  UPPER LIMIT:      ","> LOWER LIMIT:      ","  BACK              ");
   }
   if (i==3){
-    lcd_Ausgabe ("  UPPER LIMIT:      ","  LOWER LIMIT:      ","                    ","> BACK              ");
+    lcd_Ausgabe ("Settings Humidity:","  UPPER LIMIT:      ","  LOWER LIMIT:      ","> BACK              ");
   }
    
    // In die jeweiligen Menüs springen
   if (i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Upper
   {
-    lcd.clear();
+    write_Upperumid (0, ONrWasser);
     alteZeit = millis();
     Humid = false;
-    Upper = true;
+    UpperHumid = true;
     i=1;
   }
   if (i == 2 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Lower
   {
-    lcd.clear();
     alteZeit = millis();
     Humid = false;
-    Lower = true;
+    LowerHumid = true;
     i = 1;
   }
   if (i == 3 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Back
@@ -402,39 +403,30 @@ while(Light == true)
   i = MenuAuswahl(i);
   //Menügrößen
   if (i==0) i=1;
-  if (i==4) i=3;
+  if (i==3) i=2;
   
   // Displayanzeige des Lighting Menüs
   if (i==1){
-    lcd_Ausgabe ("> UPPER LIMIT:      ","  LOWER LIMIT:      ","                    ","  BACK              ");
+    lcd_Ausgabe ("Settings Light:","> LIMIT:            ","                    ","  BACK              ");
   }
   if (i==2){
-    lcd_Ausgabe ("  UPPER LIMIT:      ","> LOWER LIMIT:      ","                    ","  BACK              ");
+    lcd_Ausgabe ("Settings Light:","  LIMIT:            ","                    ","  BACK              ");
   }
   if (i==3){
-    lcd_Ausgabe ("  UPPER LIMIT:      ","  LOWER LIMIT:      ","                    ","> BACK              ");
+    lcd_Ausgabe ("Settings Light:","  LIMIT:            ","                    ","> BACK              ");
   }
    
    // In die jeweiligen Menüs springen
   if (i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Upper
   {
-    lcd.clear();
     alteZeit = millis();
     Light = false;
-    Upper = true;
+    LimitLight = true;
     i=1;
   }
   if (i == 2 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Lower
   {
-    lcd.clear();
-    alteZeit = millis();   
-    Light = false;
-    Lower = true;
-    i = 1;
-  }
-  if (i == 3 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) //Back
-  {
-    lcd.clear();
+   lcd.clear();
     alteZeit = millis();
     Light = false;
     Settings = true;
@@ -451,32 +443,30 @@ while(Temp == true)
   if (i==0) i=1;
   if (i==4) i=3;
   
-  // Displayanzeige des Lighting Menüs
+  // Displayanzeige des Temp Menüs
   if (i==1){
-    lcd_Ausgabe ("> UPPER LIMIT:      ","  LOWER LIMIT:      ","                    ","  BACK              ");
+    lcd_Ausgabe ("Settings Temperatur:","> UPPER LIMIT:      ","  LOWER LIMIT:      ","  BACK              ");
   }
   if (i==2){
-    lcd_Ausgabe ("  UPPER LIMIT:      ","> LOWER LIMIT:      ","                    ","  BACK              ");
+    lcd_Ausgabe ("Settings Temperatur:","  UPPER LIMIT:      ","> LOWER LIMIT:      ","  BACK              ");
   }
   if (i==3){
-    lcd_Ausgabe ("  UPPER LIMIT:      ","  LOWER LIMIT:      ","                    ","> BACK              ");
+    lcd_Ausgabe ("Settings Temperatur:","  UPPER LIMIT:      ","  LOWER LIMIT:      ","> BACK              ");
   }
    
    // In die jeweiligen Menüs springen
   if (i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Upper
   {
-    lcd.clear();
     alteZeit = millis();
     Temp = false;
-    Upper = true;
+    UpperTemp = true;
     i=1;
   }
   if (i == 2 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Lower
   {
-    lcd.clear();
     alteZeit = millis();
     Temp = false;
-    Lower = true;
+    LowerTemp = true;
     i = 1;
   }
   if (i == 3 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Back
@@ -488,20 +478,12 @@ while(Temp == true)
     i=1;
   }
 } //Klammer While Temp
-
+  
 //------------------------------------------------------------------
-// Menü Upper
-while(Upper == true)
-{
-
-} //Klammer While Upper
-
+//Menü: Upper
+  
 //------------------------------------------------------------------
-// Menü Lower
-while(Lower == true)
-{
-
-} //Klammer While Lower
+//Menü: Lower
 
 //------------------------------------------------------------------
 //Menü: Relais
@@ -563,18 +545,136 @@ while(Relais == true)
      Haupt = true;
      i=1;
     }
-} //Klammer while Relais
 
-
-
-
-
-
-
+} //Kalmmer while Relais
 
 //------------------------------------------------------------------
 //Untermenüs Für Relais Test.....
+while(Wasser == true)
+{
+  i= MenuAuswahl(i);
+  //Menügröße
+  if(i == 0) i = 1;
+  if(i == 4) i = 3;
 
+  //Display Anzeige des Wasser Menüs
+  if(i == 1)
+  {
+    lcd_Ausgabe("Water-Pump:","> ON","  OFF","  Back");
+  }
+  if(i == 2)
+  {
+    lcd_Ausgabe("Water-Pump:","  ON","> OFF","  Back");
+  }
+  if(i == 3)
+  {
+    lcd_Ausgabe("Water-Pump:","  ON","  OFF","> Back");
+  }
+
+  //Einschlatung der Relais
+  if(i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    digitalWrite(rWasser, HIGH);
+    alteZeit = millis();
+  }
+  if(i == 2 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    digitalWrite(rWasser, LOW);
+    alteZeit = millis();
+  }
+  if(i == 3 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    lcd.clear();
+    alteZeit = millis();
+    Wasser = false;
+    Relais = true;
+    i=1;
+  }
+} //Klammer while Wasser
+
+while(Lampe == true)
+{
+  i= MenuAuswahl(i);
+  //Menügröße
+  if(i == 0) i = 1;
+  if(i == 4) i = 3;
+
+  //Display Anzeige des Lampe Menüs
+  if(i == 1)
+  {
+    lcd_Ausgabe("Lamp:","> ON","  OFF","  Back");
+  }
+  if(i == 2)
+  {
+    lcd_Ausgabe("Lamp:","  ON","> OFF","  Back");
+  }
+  if(i == 3)
+  {
+    lcd_Ausgabe("Lamp:","  ON","  OFF","> Back");
+  }
+
+  //Einschlatung der Relais
+  if(i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    digitalWrite(rLicht, HIGH);
+    alteZeit = millis();
+  }
+  if(i == 2 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    digitalWrite(rLicht, LOW);
+    alteZeit = millis();
+  }
+  if(i == 3 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    lcd.clear();
+    alteZeit = millis();
+    Lampe = false;
+    Relais = true;
+    i=1;
+  }
+} //Klammer while Lampe
+
+while(Luft == true)
+{
+  i= MenuAuswahl(i);
+  //Menügröße
+  if(i == 0) i = 1;
+  if(i == 4) i = 3;
+
+  //Display Anzeige des Luft Menüs
+  if(i == 1)
+  {
+    lcd_Ausgabe("Ventilator:","> ON","  OFF","  Back");
+  }
+  if(i == 2)
+  {
+    lcd_Ausgabe("Ventilator:","  ON","> OFF","  Back");
+  }
+  if(i == 3)
+  {
+    lcd_Ausgabe("Ventilator:","  ON","  OFF","> Back");
+  }
+
+  //Einschlatung der Relais
+  if(i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    digitalWrite(rLuft, HIGH);
+    alteZeit = millis();
+  }
+  if(i == 2 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    digitalWrite(rLuft, LOW);
+    alteZeit = millis();
+  }
+  if(i == 3 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    lcd.clear();
+    alteZeit = millis();
+    Luft = false;
+    Relais = true;
+    i=1;
+  }
+} //Klammer while Luft
 
 
 } //Loop Klammer
