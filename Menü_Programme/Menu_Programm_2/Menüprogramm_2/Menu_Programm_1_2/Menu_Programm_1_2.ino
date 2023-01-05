@@ -373,7 +373,7 @@ while(Humid == true)
    // In die jeweiligen Menüs springen
   if (i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Upper
   {
-    write_Upperumid (0, ONrWasser);
+    write_UpperHumid (0, ONrWasser);
     alteZeit = millis();
     Humid = false;
     UpperHumid = true;
