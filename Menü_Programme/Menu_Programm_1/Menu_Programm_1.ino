@@ -77,7 +77,7 @@ char d[20];             //Vierte Zeile
 
   //Taster Entprellung
 unsigned long alteZeit = 0;
-unsigned long entprellZeit = 250;
+unsigned long entprellZeit = 120;
 
   //Variablen Zur Relais Schalt Einstellung
 int ONrWasser = 50;
@@ -408,7 +408,11 @@ while(Humid == true)
   if (i==3){
     lcd_Ausgabe ("Settings Humidity:","  UPPER LIMIT:      ","  LOWER LIMIT:      ","> BACK              ");
   }
-   
+  lcd.setCursor(16,1);
+  lcd.print (ONrWasser);
+  lcd.setCursor (16,2);
+  lcd.print (OFFrWasser);
+ 
    // In die jeweiligen Menüs springen
   if (i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // In Menü: HumidUPPER zum Einstellen
   {
@@ -443,38 +447,74 @@ while (HumidUPPER == true)
   if (HochSta == HIGH && (millis() - alteZeit) > entprellZeit)
   {
     lcd.setCursor(16,1);
-    alteZeit = millis();
     lcd.print("    ");
     ONrWasser = ONrWasser +1;
+    if (ONrWasser > 100){ ONrWasser = 100; }      //Grenzen Upper Limit
     lcd.setCursor(16,1);
     lcd.print(ONrWasser);
-    
+    alteZeit = millis();
   }
 
   if (RunterSta == HIGH && (millis() - alteZeit) > entprellZeit)
   {
     lcd.setCursor(16,1);
-    alteZeit = millis();
     lcd.print("    ");
     ONrWasser = ONrWasser -1;
+    if (ONrWasser < 0) { ONrWasser = 0; }
     lcd.setCursor(16,1);
     lcd.print(ONrWasser);
+    alteZeit = millis();
     
   }
-
-  if (ONrWasser > 100){ ONrWasser = 100; }      //Grenzen Upper Limit
-  if (ONrWasser < 0) { ONrWasser = 0; }
-
+  
   if (OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
   {
     EEPROM.update(0, ONrWasser);
-    HumidUPPER == false;
-    Humid == true;
+    alteZeit = millis();
+    HumidUPPER = false;
+    Settings = true;
     i=1;
+  }
+}
+//------------------------------------------------------------------
+//Menü: HumidLOWER
+while (HumidLOWER == true)
+{
+  i = MenuAuswahl (i);
+  if (HochSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    lcd.setCursor(16,2);
+    lcd.print("    ");
+    OFFrWasser = OFFrWasser +1;
+    if (OFFrWasser > 100){ OFFrWasser = 100; } 
+    lcd.setCursor(16,2);
+    lcd.print(OFFrWasser);
     alteZeit = millis();
   }
+
+  if (RunterSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    lcd.setCursor(16,2);
+    lcd.print("    ");
+    OFFrWasser = OFFrWasser -1;
+    if (OFFrWasser < 0) { OFFrWasser = 0; }
+    lcd.setCursor(16,2);
+    lcd.print(OFFrWasser);
+    alteZeit = millis();
+    
+  }
   
+  if (OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    EEPROM.update(1, OFFrWasser);
+    alteZeit = millis();
+    HumidLOWER = false;
+    Settings = true;
+    i=1;
+  }
 }
+//------------------------------------------------------------------
+
 
 //------------------------------------------------------------------
 //Menü: Light
