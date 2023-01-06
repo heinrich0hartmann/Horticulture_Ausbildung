@@ -9,6 +9,7 @@
 #include <DallasTemperature.h>
 #include <NewPing.h>
 #include <AS_BH1750.h>
+#include <EEPROM.h>
 
 //------------------------------------------------------------------
 //Definitionen
@@ -51,18 +52,22 @@ int RunterSta = 0;
   //Menüvariablen
 int Cover = true;       //Der Start Bildschirm quasie
 int Haupt = false;      //Hauptmenü
-int Overview = false;  //Das Parameter Übersichts Menü
-int Settings = false;  //Das Parameter Übersichtsmenü
-int Temp = false;
-int Light = false;
-int Humid = false;
+int Overview = false;   //Das Parameter Übersichts Menü
+int Settings = false;   //Das Parameter Übersichtsmenü
+int Temp = false;       //Temperature Grenzen Menü
+int TempUpper = false;
+int TempLOWER = false;
+int Light = false;      //Light Grenzen Menü
+int LightLOWER = false;
+int Humid = false;      //Humidity Grenzen Menü
+int HumidUPPER = false;
+int HumidLOWER = false;
 int Relais = false;     //Das Relais Menü
-int Wasser = false;
-int Lampe = false;
-int Luft = false;
+int Wasser = false;     //Relais Wasser
+int Lampe = false;      //Relais Licht
+int Luft = false;       //Relais Luft
 int i = 1;              //Laufvariable für die Menüauswahl
-int Upper = false;
-int Lower = false;
+
 
   //LCD Ausgabevariablen für direkte Positionierung
 char a[20];             //Erste Zeile
@@ -119,6 +124,33 @@ void setup()
 //------------------------------------------------------------------
 //Subroutinen
 
+//Funktion Für EEPROM
+
+//Variablen in EEPROM speichern wenn diese Verändert wurden
+void SpeichernEEPROM ()
+{
+    EEPROM.update(0, ONrWasser);            //ONrWasser Checken ob geändert
+    ONrWasser = EEPROM.read(0);            //Damit bei Programm Neustart in ONrWasser automatisch eingestellte Variable steht
+    
+    EEPROM.update(1, OFFrWasser);           //OFFrWasser Checken ob geändert
+    OFFrWasser = EEPROM.read(1);
+    
+    EEPROM.update(2, ONrLuft);              //ONrLuft Checken ob geändert
+    ONrLuft = EEPROM.read(2);
+
+    EEPROM.update(3, OFFrLuft);             //OFFrLuft Checken ob geändert
+    OFFrLuft = EEPROM.read(3);
+  
+    byte byte_4 = (ONrLicht & 0xFF);        //ONrLicht Checken ob geändert
+    byte byte_5 = ((ONrLicht >> 8) & 0xFF);
+    EEPROM.update(4, byte_4);
+    EEPROM.update(5, byte_5);
+
+    long byte_4E = EEPROM.read(4);
+    long byte_5E = EEPROM.read(5);
+    ONrLicht = ((byte_4E << 0) & 0xFFFFFF) + ((byte_5E <<8) & 0xFFFFFFFF);  
+}
+
 //Funktion für Wert Ausgabe auf Overview Display
 void Subroutine_Overview();       //In neuem Tab
 
@@ -163,6 +195,10 @@ int MenuAuswahl (int i)
 //------------------------------------------------------------------
 void loop() 
 {
+
+//Speichern EEPROM dauerhaft abfragen num Änderungen einzustellen
+SpeichernEEPROM ();
+
 
 //Menü: Cover
 while(Cover == true)
@@ -368,23 +404,23 @@ while(Humid == true)
   }
    
    // In die jeweiligen Menüs springen
-  if (i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Upper
+  if (i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // In Menü: HumidUPPER zum Einstellen
   {
-    lcd.clear();
+    lcd.setCursor(16,1);
+    lcd.print(ONrWasser);
     alteZeit = millis();
     Humid = false;
-    Upper = true;
+    HumidUPPER = true;
     i=1;
   }
-  if (i == 2 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Lower
+  if (i == 2 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // In Menü: HumidLOWER zum Einstellen
   {
-    lcd.clear();
     alteZeit = millis();
     Humid = false;
-    Lower = true;
+    HumidLOWER = true;
     i = 1;
   }
-  if (i == 3 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Back
+  if (i == 3 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Back to Menu: Settings
   {
     lcd.clear();
     alteZeit = millis();
@@ -393,6 +429,42 @@ while(Humid == true)
     i=1;
   }
 } // Klammer While Humid
+//------------------------------------------------------------------
+//Menü: HumidUPPER
+while (HumidUPPER == true)
+{
+  i = MenuAuswahl (i);
+  if (HochSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    lcd.setCursor(16,1);
+    lcd.print("    ");
+    ONrWasser = ONrWasser +1;
+    lcd.setCursor(16,1);
+    lcd.print(ONrWasser);
+    alteZeit = millis();
+  }
+
+  if (RunterSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    lcd.setCursor(16,1);
+    lcd.print("    ");
+    ONrWasser = ONrWasser -1;
+    lcd.setCursor(16,1);
+    lcd.print(ONrWasser);
+    alteZeit = millis();
+  }
+
+  if (ONrWasser > 100){ ONrWasser = 100; }      //Grenzen Upper Limit
+  if (ONrWasser < 0) { ONrWasser = 0; }
+
+  if (OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    HumidUPPER == false;
+    Humid == true;
+    alteZeit = millis();
+  }
+  
+}
 
 //------------------------------------------------------------------
 //Menü: Light
@@ -401,17 +473,15 @@ while(Light == true)
   i = MenuAuswahl(i);
   //Menügrößen
   if (i==0) i=1;
-  if (i==4) i=3;
+  if (i==3) i=2;
   
   // Displayanzeige des Lighting Menüs
   if (i==1){
-    lcd_Ausgabe ("Settings Light:","> UPPER LIMIT:      ","  LOWER LIMIT:      ","  BACK              ");
+    lcd_Ausgabe ("Settings Light:","> UPPER LIMIT:      ","                    ","  BACK              ");
   }
+
   if (i==2){
-    lcd_Ausgabe ("Settings Light:","  UPPER LIMIT:      ","> LOWER LIMIT:      ","  BACK              ");
-  }
-  if (i==3){
-    lcd_Ausgabe ("Settings Light:","  UPPER LIMIT:      ","  LOWER LIMIT:      ","> BACK              ");
+    lcd_Ausgabe ("Settings Light:","  UPPER LIMIT:      ","                    ","> BACK              ");
   }
    
    // In die jeweiligen Menüs springen
@@ -420,18 +490,10 @@ while(Light == true)
     lcd.clear();
     alteZeit = millis();
     Light = false;
-    Upper = true;
+    LightLOWER = true;
     i=1;
   }
-  if (i == 2 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Lower
-  {
-    lcd.clear();
-    alteZeit = millis();   
-    Light = false;
-    Lower = true;
-    i = 1;
-  }
-  if (i == 3 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) //Back
+  if (i == 2 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) //Back
   {
     lcd.clear();
     alteZeit = millis();
@@ -467,7 +529,7 @@ while(Temp == true)
     lcd.clear();
     alteZeit = millis();
     Temp = false;
-    Upper = true;
+    TempUpper = true;
     i=1;
   }
   if (i == 2 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Lower
@@ -475,7 +537,7 @@ while(Temp == true)
     lcd.clear();
     alteZeit = millis();
     Temp = false;
-    Lower = true;
+    TempLOWER = true;
     i = 1;
   }
   if (i == 3 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Back
