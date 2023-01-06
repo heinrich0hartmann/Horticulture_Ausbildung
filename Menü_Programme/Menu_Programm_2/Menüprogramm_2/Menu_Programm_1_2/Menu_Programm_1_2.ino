@@ -124,7 +124,7 @@ void setup()
 
 //Funktion für Wert Ausgabe auf Overview Display
 void Subroutine_Overview();       //In neuem Tab
-
+void UpperLimitHumid ();
 //Funktion für die LCD Ausgabe
 void lcd_Ausgabe (char*a, char*b, char*c, char*d)
 {
@@ -373,7 +373,7 @@ while(Humid == true)
    // In die jeweiligen Menüs springen
   if (i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Upper
   {
-    write_Upperumid (0, ONrWasser);
+    UpperLimitHumid ();
     alteZeit = millis();
     Humid = false;
     UpperHumid = true;
