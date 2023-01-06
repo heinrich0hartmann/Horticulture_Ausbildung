@@ -120,6 +120,16 @@ void setup()
 
   //Für Display Clear mit Millis
   ScreenTime = millis();
+
+  //Für Einstellung derr Grenzparameter nach restart auf die Werte im EEPROM
+  ONrWasser = EEPROM.read(0);
+  OFFrWasser = EEPROM.read(1);
+  ONrLuft = EEPROM.read(2);
+  OFFrLuft = EEPROM.read(3);
+
+  long byte_4E = EEPROM.read(4);                                            //Für den Int Wert des Lichtes
+  long byte_5E = EEPROM.read(5);
+  ONrLicht = ((byte_4E << 0) & 0xFFFFFF) + ((byte_5E <<8) & 0xFFFFFFFF);
 }
 //------------------------------------------------------------------
 //Subroutinen
@@ -127,7 +137,7 @@ void setup()
 //Funktion Für EEPROM
 
 //Variablen in EEPROM speichern wenn diese Verändert wurden
-void SpeichernEEPROM ()
+/*void SpeichernEEPROM ()
 {
     EEPROM.update(0, ONrWasser);            //ONrWasser Checken ob geändert
     ONrWasser = EEPROM.read(0);            //Damit bei Programm Neustart in ONrWasser automatisch eingestellte Variable steht
@@ -150,7 +160,7 @@ void SpeichernEEPROM ()
     long byte_5E = EEPROM.read(5);
     ONrLicht = ((byte_4E << 0) & 0xFFFFFF) + ((byte_5E <<8) & 0xFFFFFFFF);  
 }
-
+*/
 //Funktion für Wert Ausgabe auf Overview Display
 void Subroutine_Overview();       //In neuem Tab
 
@@ -195,10 +205,6 @@ int MenuAuswahl (int i)
 //------------------------------------------------------------------
 void loop() 
 {
-
-//Speichern EEPROM dauerhaft abfragen num Änderungen einzustellen
-SpeichernEEPROM ();
-
 
 //Menü: Cover
 while(Cover == true)
@@ -459,6 +465,7 @@ while (HumidUPPER == true)
 
   if (OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
   {
+    EEPROM.update(0, ONrWasser);
     HumidUPPER == false;
     Humid == true;
     alteZeit = millis();
@@ -550,12 +557,6 @@ while(Temp == true)
   }
 } //Klammer While Temp
   
-//------------------------------------------------------------------
-//Menü: Upper
-  
-//------------------------------------------------------------------
-//Menü: Lower
-
 //------------------------------------------------------------------
 //Menü: Relais
 while(Relais == true)
