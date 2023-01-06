@@ -55,7 +55,7 @@ int Haupt = false;      //Hauptmenü
 int Overview = false;   //Das Parameter Übersichts Menü
 int Settings = false;   //Das Parameter Übersichtsmenü
 int Temp = false;       //Temperature Grenzen Menü
-int TempUpper = false;
+int TempUPPER = false;
 int TempLOWER = false;
 int Light = false;      //Light Grenzen Menü
 int LightLOWER = false;
@@ -416,8 +416,6 @@ while(Humid == true)
    // In die jeweiligen Menüs springen
   if (i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // In Menü: HumidUPPER zum Einstellen
   {
-    lcd.setCursor(16,1);
-    lcd.print(ONrWasser);
     alteZeit = millis();
     Humid = false;
     HumidUPPER = true;
@@ -572,19 +570,21 @@ while(Temp == true)
   if (i==3){
     lcd_Ausgabe ("Settings Temperatur:","  UPPER LIMIT:      ","  LOWER LIMIT:      ","> BACK              ");
   }
+  lcd.setCursor(16,1);
+  lcd.print(ONrLuft);
+  lcd.setCursor(16,2);
+  lcd.print(OFFrLuft);
    
    // In die jeweiligen Menüs springen
   if (i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Upper
   {
-    lcd.clear();
     alteZeit = millis();
     Temp = false;
-    TempUpper = true;
+    TempUPPER = true;
     i=1;
   }
   if (i == 2 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Lower
   {
-    lcd.clear();
     alteZeit = millis();
     Temp = false;
     TempLOWER = true;
@@ -599,7 +599,81 @@ while(Temp == true)
     i=1;
   }
 } //Klammer While Temp
+
+//------------------------------------------------------------------
+//Menü: TempUPPER
+while (TempUPPER == true)
+{
+  i = MenuAuswahl (i);
+  if (HochSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    lcd.setCursor(16,1);
+    lcd.print("    ");
+    ONrLuft = ONrLuft +1;
+    if (ONrLuft > 100){ ONrLuft = 100; } 
+    lcd.setCursor(16,1);
+    lcd.print(ONrLuft);
+    alteZeit = millis();
+  }
+
+  if (RunterSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    lcd.setCursor(16,1);
+    lcd.print("    ");
+    ONrLuft = ONrLuft -1;
+    if (ONrLuft < 0) { ONrLuft = 0; }
+    lcd.setCursor(16,1);
+    lcd.print(ONrLuft);
+    alteZeit = millis();
+    
+  }
   
+  if (OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    EEPROM.update(2, ONrLuft);
+    alteZeit = millis();
+    TempUPPER = false;
+    Settings = true;
+    i=3;
+  }
+}
+//------------------------------------------------------------------
+//Menü: TempLOWER
+while (TempLOWER == true)
+{
+  i = MenuAuswahl (i);
+  if (HochSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    lcd.setCursor(16,2);
+    lcd.print("    ");
+    OFFrLuft = OFFrLuft +1;
+    if (OFFrLuft > 100){ OFFrLuft = 100; } 
+    lcd.setCursor(16,2);
+    lcd.print(OFFrLuft);
+    alteZeit = millis();
+  }
+
+  if (RunterSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    lcd.setCursor(16,2);
+    lcd.print("    ");
+    OFFrLuft = OFFrLuft -1;
+    if (OFFrLuft < 0) { OFFrLuft = 0; }
+    lcd.setCursor(16,2);
+    lcd.print(OFFrLuft);
+    alteZeit = millis();
+    
+  }
+  
+  if (OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    EEPROM.update(3, OFFrLuft);
+    alteZeit = millis();
+    TempLOWER = false;
+    Settings = true;
+    i=3;
+  }
+}
 //------------------------------------------------------------------
 //Menü: Relais
 while(Relais == true)
