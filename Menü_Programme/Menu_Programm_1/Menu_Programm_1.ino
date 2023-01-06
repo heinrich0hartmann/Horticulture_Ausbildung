@@ -443,21 +443,23 @@ while (HumidUPPER == true)
   if (HochSta == HIGH && (millis() - alteZeit) > entprellZeit)
   {
     lcd.setCursor(16,1);
+    alteZeit = millis();
     lcd.print("    ");
     ONrWasser = ONrWasser +1;
     lcd.setCursor(16,1);
     lcd.print(ONrWasser);
-    alteZeit = millis();
+    
   }
 
   if (RunterSta == HIGH && (millis() - alteZeit) > entprellZeit)
   {
     lcd.setCursor(16,1);
+    alteZeit = millis();
     lcd.print("    ");
     ONrWasser = ONrWasser -1;
     lcd.setCursor(16,1);
     lcd.print(ONrWasser);
-    alteZeit = millis();
+    
   }
 
   if (ONrWasser > 100){ ONrWasser = 100; }      //Grenzen Upper Limit
@@ -468,6 +470,7 @@ while (HumidUPPER == true)
     EEPROM.update(0, ONrWasser);
     HumidUPPER == false;
     Humid == true;
+    i=1;
     alteZeit = millis();
   }
   
