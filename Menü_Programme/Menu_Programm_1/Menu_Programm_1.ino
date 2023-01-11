@@ -513,9 +513,6 @@ while (HumidLOWER == true)
   }
 }
 //------------------------------------------------------------------
-
-
-//------------------------------------------------------------------
 //Menü: Light
 while(Light == true)
 {
@@ -532,11 +529,12 @@ while(Light == true)
   if (i==2){
     lcd_Ausgabe ("Settings Light:","  UPPER LIMIT:      ","                    ","> BACK              ");
   }
+    lcd.setCursor(16,1);
+    lcd.print(ONrLicht);
    
    // In die jeweiligen Menüs springen
   if (i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // Upper
   {
-    lcd.clear();
     alteZeit = millis();
     Light = false;
     LightLOWER = true;
@@ -551,6 +549,47 @@ while(Light == true)
     i=1;
   }
 } //Klammer While Light
+
+//------------------------------------------------------------------
+//Menü: LightLOWER
+while (LightLOWER == true)
+{
+  i = MenuAuswahl (i);
+  if (HochSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    lcd.setCursor(16,1);
+    lcd.print("    ");
+    ONrLicht = ONrLicht +100;
+    if (ONrLicht > 10000){ ONrLuft = 10000; } 
+    lcd.setCursor(16,1);
+    lcd.print(ONrLicht);
+    alteZeit = millis();
+  }
+
+  if (RunterSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    lcd.setCursor(16,1);
+    lcd.print("    ");
+    ONrLicht = ONrLicht -100;
+    if (ONrLicht < 0) { ONrLicht = 0; }
+    lcd.setCursor(16,1);
+    lcd.print(ONrLicht);
+    alteZeit = millis();
+    
+  }
+  
+  if (OkSta == HIGH && (millis() - alteZeit) > entprellZeit)
+  {
+    byte byte_4 = (ONrLicht & 0xFF);
+    byte byte_5 = ((ONrLicht >> 8) & 0xFF);
+    EEPROM.update(4, byte_4);
+    EEPROM.update(5, byte_5);
+    alteZeit = millis();
+    LightLOWER = false;
+    Settings = true;
+    i=2;
+  }
+}
 
 //------------------------------------------------------------------
 //Menü: Temp
