@@ -408,10 +408,11 @@ while(Humid == true)
   if (i==3){
     lcd_Ausgabe ("Settings Humidity:","  UPPER LIMIT:      ","  LOWER LIMIT:      ","> BACK              ");
   }
-  lcd.setCursor(16,1);
-  lcd.print (ONrWasser);
-  lcd.setCursor (16,2);
-  lcd.print (OFFrWasser);
+  
+    lcd.setCursor(16,1);
+    lcd.print (ONrWasser);
+    lcd.setCursor (16,2);
+    lcd.print (OFFrWasser);
  
    // In die jeweiligen Menüs springen
   if (i == 1 && OkSta == HIGH && (millis() - alteZeit) > entprellZeit) // In Menü: HumidUPPER zum Einstellen
