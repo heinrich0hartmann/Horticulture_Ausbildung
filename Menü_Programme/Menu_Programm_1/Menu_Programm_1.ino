@@ -89,7 +89,7 @@ int OFFrLuft = 15;
   //Display Clear Time
 unsigned long ScreenTime = 0;
 unsigned long TimeNow = 0;
-int ClearTime = 5000;
+int ClearTime = 30000;
 
 //------------------------------------------------------------------
 
